@@ -1,0 +1,56 @@
+<mat-card>
+  <form (ngSubmit)="onSubmitUser()" [formGroup]="userForm" class="p-4" >
+    <div id="user-data" class="d-flex flex-column ">
+      <mat-form-field id="signup-username-ff" appearance="outline" class="w-100 mx-auto">
+        <mat-label>Nom d'utilisateur*</mat-label>
+        <input formControlName="username" id="username-sign-up" matInput type="text">
+        <mat-error *ngIf="usernameCtrl.dirty && usernameCtrl.hasError('minlength')">Entre 6 et 20 caractères
+        </mat-error>
+        <mat-error *ngIf="usernameCtrl.dirty && usernameCtrl.hasError('maxlength')">Entre 6 et 20 caractères
+        </mat-error>
+        <mat-error *ngIf="usernameCtrl.dirty && usernameCtrl.hasError('required')">Le nom d'utilisateur est
+          obligatoire
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field id="signup-email-ff" appearance="outline" class="w-100 mx-auto">
+        <mat-label>Email*</mat-label>
+        <input formControlName="email" id="email-sign-up" matInput type="email">
+        <mat-error *ngIf="emailCtrl.dirty && emailCtrl.hasError('email')">L'email doit respecter le format
+          frederic@esgi.fr
+        </mat-error>
+        <mat-error *ngIf="emailCtrl.dirty && emailCtrl.hasError('required')">L'email est obligatoire</mat-error>
+      </mat-form-field>
+      <div formGroupName="passwordForm" class="mx-auto d-flex flex-column" >
+        <mat-form-field id="signup-pwd-ff" appearance="outline" class="w-100 mx-auto">
+          <mat-label>Mot de passe*</mat-label>
+          <input formControlName="password" id="password-sign-up" matInput type="password">
+          <mat-error *ngIf="pwdCtrl.dirty && pwdCtrl.hasError('minlength')">Minimum 8 caractères
+          </mat-error>
+          <mat-error *ngIf="pwdCtrl.dirty && pwdCtrl.hasError('required')">Le mot de passe est
+            obligatoire
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field id="signup-confirm-pwd-ff" appearance="outline" class="w-100 mx-auto">
+          <mat-label>Confirmation*</mat-label>
+          <input formControlName="confirm" id="confirm-password-sign-up" matInput type="password">
+          <mat-error *ngIf="confirmPwdCtrl.dirty && confirmPwdCtrl.hasError('required')">La confirmation
+            de mot de passe est obligatoire
+          </mat-error>
+        </mat-form-field>
+        <mat-error *ngIf="!passwordForm.pristine && confirmPwdCtrl.hasError('eqCtrlValidator')">Les mots de passe ne
+          correspondent pas
+        </mat-error>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-start">
+      <button id="register-button-sign-up"  [disabled]="!isFormValid" class="border-primary mx-2" color="primary" mat-stroked-button type="submit">
+        Valider
+      </button>
+      <button  id="register-button-reset"  class="border-danger  mx-2" color="warn" mat-stroked-button type="button" (click)="reset()">
+        Réinitialiser
+      </button>
+    </div>
+
+  </form>
+
+</mat-card>
