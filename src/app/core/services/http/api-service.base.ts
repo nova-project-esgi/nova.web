@@ -1,15 +1,14 @@
-import {Injectable, NgZone} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {LinkRelEnum} from '../../../shared/enums/link-rel.enum';
 import {KeyValue} from '@angular/common';
 import {UrlUtils} from '../../../shared/utils/url.utils';
 import {map} from 'rxjs/operators';
-import {PaginationMetadata} from '../../../shared/others/pagination-metadata';
+import {PaginationMetadata} from '../../../shared/pagination/pagination-metadata';
 import {ObservableObject} from '../../../shared/models/observable-object';
+import {HeadersEnum} from '../../../shared/enums/headers.enum';
 
-export interface GetParams<T, F = T> {
-  url?: string;
+export interface GetParams<T, F = T> extends RequestParams{
   fieldCtr?: any;
   fields?: Array<keyof T>;
   ascOrderColumnsCtr?: any;
@@ -20,34 +19,44 @@ export interface GetParams<T, F = T> {
   filters?: KeyValue<string, any> [];
 }
 
+export interface RequestParams{
+  url?: string;
+  headers?: HttpHeaders | {
+    [header: string]: string | string[];
+  };
+}
+
 export abstract class ApiServiceBase {
 
   protected abstract url: string;
   protected abstract http: HttpClient;
 
+  protected getAcceptHeader(contentType: string): HttpHeaders{
+    return new HttpHeaders({[HeadersEnum.ACCEPT]: contentType});
+  }
 
-  protected getPatchableFiltered<T, P = T, F = T>(obj: GetParams<P, F>): Observable<ObservableObject<T>>{
-    return this.getFiltered<T, P, F>(obj).pipe(
+  protected getPatchableFiltered<T, F = T, P = T>(obj: GetParams<P, F>): Observable<ObservableObject<T>> {
+    return this.getFiltered<T, F, P>(obj).pipe(
       map(res => new ObservableObject<T>({object: res}))
     );
   }
 
   protected fetchAllPatchable<T, P = T, F = T>(obj: GetParams<P, F>, acc: T[] = []): Observable<ObservableObject<T>[]> {
     return this.fetchAll<T, P, F>(obj).pipe(
-      map(res =>  res.map(el => new ObservableObject<T>({object: el})))
+      map(res => res.map(el => new ObservableObject<T>({object: el})))
     );
   }
 
 
   // T: return object, P: specified properties to get by model, F: filter type
-  protected getFiltered<T, P = T, F = T>(obj: GetParams<P, F>): Observable<T>{
+  protected getFiltered<Output, Filter = Output,  P = Output>(obj: GetParams<P, Filter>): Observable<Output> {
     const url = UrlUtils.convertGetParamsToUrl(obj);
-    return this.http.get<T>(url);
+    return this.http.get<Output>(url);
   }
 
-  protected getAllFiltered<T, P = T, F = T>(obj: GetParams<P, F>): Observable<T[]>{
+  protected getAllFiltered<T, P = T, F = T>(obj: GetParams<P, F>): Observable<T[]> {
     const url = UrlUtils.convertGetParamsToUrl(obj);
-    return this.http.get<PaginationMetadata<T>>(url).pipe( map(res => res.values));
+    return this.http.get<PaginationMetadata<T>>(url).pipe(map(res => res.values));
   }
 
   protected fetchAll<T, P = T, F = T>(obj: GetParams<P, F>, acc: T[] = []): Observable<T[]> {
@@ -64,14 +73,14 @@ export abstract class ApiServiceBase {
   }
 
 
-  protected createAndLocate<T>(url: string, body: T ): Observable<string> {
-    return this.http.post(url, body, {observe: 'response'}).pipe(
+  protected createAndLocate<T>(request: RequestParams, body: T): Observable<string> {
+    return this.http.post(request.url, body, {observe: 'response', headers: request.headers}).pipe(
       map(value => value.headers.get('location'))
     );
   }
 
-  protected createAndGetIds<T>(url: string, body: T ): Observable<number[]>{
-    return this.createAndLocate(url, body).pipe(
+  protected createAndGetIds<T>(request: RequestParams, body: T): Observable<number[]> {
+    return this.createAndLocate(request, body).pipe(
       map(location => {
         const segments = UrlUtils.convertPathUrlToKeysValues(location);
         return segments.map(kV => kV.value);

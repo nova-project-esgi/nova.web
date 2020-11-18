@@ -1,11 +1,10 @@
 export class FileUtils {
 
-  public static base64ToFile(base64: string, fileName: string): File{
+  public static base64ToFile(base64: string, fileName: string): File {
     let byteString = '';
     if (base64.split(',')[0].indexOf('base64') >= 0) {
       byteString = atob(base64.split(',')[1]);
-    }
-    else {
+    } else {
       byteString = unescape(base64.split(',')[1]);
     }
 

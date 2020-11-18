@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {UserRegisterCmdDto} from '../../../shared/models/users/UserRegisterCmdDto';
+import {UserRegisterCmdDto} from '../../../shared/models/users/user-register-cmd.dto';
 import {eqValidator} from '../../../shared/validators/object.validators';
 import {CustomValidators} from 'ngx-custom-validators';
 
@@ -26,6 +26,10 @@ export class RegisterFormComponent implements OnInit {
   constructor(private fb: FormBuilder) {
   }
 
+  get isFormValid(): boolean {
+    return this.userForm.valid;
+  }
+
   ngOnInit(): void {
     this.usernameCtrl = this.fb.control(this.user?.username,
       [Validators.required, Validators.minLength(6), Validators.maxLength(20)]);
@@ -46,10 +50,6 @@ export class RegisterFormComponent implements OnInit {
         passwordForm: this.passwordForm
       }
     );
-  }
-
-  get isFormValid(): boolean {
-    return this.userForm.valid;
   }
 
   onSubmitUser(): void {

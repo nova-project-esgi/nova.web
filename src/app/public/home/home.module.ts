@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { HomeRoutingModule } from './home-routing.module';
-import { HomeRootComponent } from './home-root/home-root.component';
+import {NgModule} from '@angular/core';
+import {HomeRoutingModule} from './home-routing.module';
+import {HomeRootComponent} from './home-root/home-root.component';
 import {SharedModule} from '../../shared/shared.module';
 
 
@@ -11,4 +11,5 @@ import {SharedModule} from '../../shared/shared.module';
     HomeRoutingModule
   ]
 })
-export class HomeModule { }
+export class HomeModule {
+}

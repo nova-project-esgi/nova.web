@@ -1,14 +1,23 @@
-<nav mat-tab-nav-bar backgroundColor="primary">
+<nav backgroundColor="primary" mat-tab-nav-bar>
   <div class="w-75">
-    <a mat-tab-link routerLink="/home" routerLinkActive="active" class="nav-link" data-toggle="tab" id="homeLink">Accueil</a>
-    <a mat-tab-link routerLink="/contact" routerLinkActive="active" class="nav-link" data-toggle="tab" id="contactLink">Contact</a>
-    <ng-container *ngIf="!user">
-      <a mat-tab-link routerLink="/login" routerLinkActive="active" class="nav-link" data-toggle="tab" id="loginLink">Connexion</a>
-    </ng-container>
+    <a class="nav-link" data-toggle="tab" id="homeLink" mat-tab-link routerLink="/home" routerLinkActive="active">Accueil</a>
+    <a class="nav-link" data-toggle="tab" id="contactLink" mat-tab-link routerLink="/contact" routerLinkActive="active">Contact</a>
+    <a *ngIf="user" class="nav-link"  data-toggle="tab" id="eventsLink" mat-tab-link routerLink="/events" routerLinkActive="active">Evènements</a>
+    <a *ngIf="!user" class="nav-link" data-toggle="tab" id="loginLink" mat-tab-link routerLink="/login" routerLinkActive="active">Connexion</a>
   </div>
   <div class="d-flex w-25 justify-content-end">
     <ng-container *ngIf="user">
-      <a mat-tab-link routerLink="/profile"  routerLinkActive="active" class="nav-link" data-toggle="tab" id="profileLink" class="align-self-end">{{user.username}}</a>
+      <button [matMenuTriggerFor]="menu" aria-label="Profile" mat-button>
+        {{user.username}}
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button (click)="logOut()" mat-menu-item>
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Log out</span>
+        </button>
+      </mat-menu>
+      <!--      <a mat-tab-link routerLink="/profile"  routerLinkActive="active" class="nav-link" data-toggle="tab" id="profileLink" class="align-self-end">{{user.username}}</a>-->
     </ng-container>
   </div>
 </nav>

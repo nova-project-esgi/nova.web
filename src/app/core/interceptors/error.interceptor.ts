@@ -10,8 +10,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       .pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.error instanceof ErrorEvent) {
-          }
-          else {
+          } else {
           }
           return throwError(error);
         })

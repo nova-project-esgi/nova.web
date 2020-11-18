@@ -3,7 +3,7 @@
     <h1>Connexion</h1>
   </div>
   <form (ngSubmit)="attemptLogin()" [formGroup]="userLoginForm" class="my-2">
-    <div id="user-data" class=" d-flex  flex-column">
+    <div class=" d-flex  flex-column" id="user-data">
       <mat-form-field appearance="outline" class="w-100 mx-auto">
         <mat-label for="username">Nom d'utilisateur</mat-label>
         <input formControlName="username" id="username" matInput type="text">
@@ -11,21 +11,19 @@
       <mat-form-field appearance="outline" class="w-100 mx-auto">
         <mat-label for="password">Mot de passe</mat-label>
         <input formControlName="password" id="password" matInput type="password">
-        <mat-hint ><a routerLink="/recovery"  class="mat-accent">Mot de passe oublié ?</a></mat-hint>
+        <mat-hint><a class="mat-accent" routerLink="/recovery">Mot de passe oublié ?</a></mat-hint>
       </mat-form-field>
-      <div class="d-flex justify-content-around align-items-center my-2">
-        <mat-checkbox
-          formControlName="rememberMe"
-          labelPosition="before">
-          Se souvenir de moi
-        </mat-checkbox>
-        <button [disabled]="!isFormValid()" mat-stroked-button type="submit" id="sign-in-button">Connexion
-        </button>
-      </div>
+      <mat-checkbox class="my-1"
+                    formControlName="rememberMe"
+                    labelPosition="after">
+        Se souvenir de moi
+      </mat-checkbox>
+      <button [disabled]="!isFormValid()" class="ml-2" id="sign-in-button" mat-stroked-button type="submit">Connexion
+      </button>
     </div>
   </form>
   <div class="d-flex  justify-content-center mt-3">
-    <button routerLink="/register" mat-button color="accent">Créer un compte</button>
+    <button color="accent" mat-button routerLink="/register">Créer un compte</button>
   </div>
 </mat-card>
 

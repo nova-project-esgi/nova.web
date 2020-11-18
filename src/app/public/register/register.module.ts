@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { RegisterRoutingModule } from './register-routing.module';
-import { RegisterRootComponent } from './register-root/register-root.component';
-import { RegisterPageComponent } from './register-page/register-page.component';
+import {RegisterRoutingModule} from './register-routing.module';
+import {RegisterRootComponent} from './register-root/register-root.component';
+import {RegisterPageComponent} from './register-page/register-page.component';
 import {SharedModule} from '../../shared/shared.module';
-import { RegisterFormComponent } from './register-form/register-form.component';
+import {RegisterFormComponent} from './register-form/register-form.component';
 
 
 @NgModule({
@@ -16,4 +16,5 @@ import { RegisterFormComponent } from './register-form/register-form.component';
     SharedModule
   ]
 })
-export class RegisterModule { }
+export class RegisterModule {
+}

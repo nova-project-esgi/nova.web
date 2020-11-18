@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { PublicRootComponent } from './public-root.component';
+import {PublicRootComponent} from './public-root.component';
 
 describe('RootComponent', () => {
   let component: PublicRootComponent;
@@ -8,9 +8,9 @@ describe('RootComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PublicRootComponent ]
+      declarations: [PublicRootComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

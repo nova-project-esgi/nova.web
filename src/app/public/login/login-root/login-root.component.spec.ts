@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { LoginRootComponent } from './login-root.component';
+import {LoginRootComponent} from './login-root.component';
 
 describe('RootComponent', () => {
   let component: LoginRootComponent;
@@ -8,9 +8,9 @@ describe('RootComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LoginRootComponent ]
+      declarations: [LoginRootComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

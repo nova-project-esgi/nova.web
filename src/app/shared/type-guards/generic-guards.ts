@@ -1,4 +1,3 @@
-
 export const isOfTypeByKey = <T>(
   varToBeChecked: any,
   propertyToCheckFor: keyof T
@@ -17,6 +16,6 @@ export const isOfTypeByKeys = <T>(
 // ): varToBeChecked is T =>
 //   isOfTypeByKeys<T>(varToBeChecked, ...ObjectUtils.getPropertiesByType(ctr));
 
-export const isObject = (obj: any): boolean =>  {
+export const isObject = (obj: any): boolean => {
   return !!obj && typeof obj === 'object';
 };

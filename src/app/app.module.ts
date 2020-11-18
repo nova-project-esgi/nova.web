@@ -6,6 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CoreModule} from './core/core.module';
 import {AppRoutingModule} from './app-routing.module';
 import {PublicModule} from './public/public.module';
+import {ProtectedModule} from './protected/protected.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import {PublicModule} from './public/public.module';
     BrowserModule,
     BrowserAnimationsModule,
     PublicModule,
+    ProtectedModule,
     AppRoutingModule,
   ],
   providers: [],

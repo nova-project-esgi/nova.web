@@ -1,29 +1,31 @@
 import {isObject, isOfTypeByKeys} from '../type-guards/generic-guards';
 import {GramOrderEnum} from '../enums/gram-order.enum';
 
-export  class ObjectUtils {
+export class ObjectUtils {
   public static getPropertiesByType(ctr: any): string[] {
-    if (!ctr) { return []; }
-    try{
+    if (!ctr) {
+      return [];
+    }
+    try {
       const obj = new ctr();
       if (!obj) {
         return [];
       }
       return Object.getOwnPropertyNames(obj);
-    } catch (e){
+    } catch (e) {
       return [];
     }
   }
 
-  public static getAnyValue(obj: any, key?: any): any{
-    if (isObject(obj)){
+  public static getAnyValue(obj: any, key?: any): any {
+    if (isObject(obj)) {
       return obj[key];
     } else {
       return obj;
     }
   }
 
-  public static tryInstantiate<T>(data: any, ctr: any): T{
+  public static tryInstantiate<T>(data: any, ctr: any): T {
     if (isOfTypeByKeys<T>(data, ...ObjectUtils.getPropertiesByType(ctr))) {
       return new ctr(data);
     }
@@ -39,15 +41,17 @@ export  class ObjectUtils {
   }
 
   public static setKeysTextBorder(obj: any, text: string, order: GramOrderEnum): any {
-    if (!isObject(obj)) { return obj; }
+    if (!isObject(obj)) {
+      return obj;
+    }
 
-    const isArray =  Array.isArray(obj);
-    const newObj = isArray ? [] : {} ;
+    const isArray = Array.isArray(obj);
+    const newObj = isArray ? [] : {};
 
     Object.keys(obj).forEach(k => {
       const value = obj[k];
-      if (!isArray){
-        if (order === GramOrderEnum.SUFFIX){
+      if (!isArray) {
+        if (order === GramOrderEnum.SUFFIX) {
           k = `${k}${text}`;
         } else {
           k = `${text}${k}`;
@@ -58,13 +62,15 @@ export  class ObjectUtils {
     return Object.keys(newObj).length === 0 ? obj : newObj;
   }
 
-  public static changeKeysCase(obj: any, caseFunction: any): any{
-    if (!isObject(obj)) { return obj; }
+  public static changeKeysCase(obj: any, caseFunction: any): any {
+    if (!isObject(obj)) {
+      return obj;
+    }
     const isArray = Array.isArray(obj);
     const newObj = isArray ? [] : {};
     Object.keys(obj).forEach(k => {
       const value = obj[k];
-      if (!isArray){
+      if (!isArray) {
         k = caseFunction(k);
       }
       newObj[k] = this.changeKeysCase(value, caseFunction);
@@ -72,54 +78,73 @@ export  class ObjectUtils {
     return this.isEmpty(obj) ? obj : newObj;
   }
 
-  private static isEmpty(obj: any): any {
-    if (!isObject(obj)) { return true; }
-    return Object.keys(obj).length === 0;
-  }
-
-  public static getNoEmptyObjectProperties(obj: any): any{
-    if (!isObject(obj)) { return obj; }
+  public static getNoEmptyObjectProperties(obj: any): any {
+    if (!isObject(obj)) {
+      return obj;
+    }
     const nonEmptyObject = {};
     Object.keys(obj).forEach(k => {
-      if (!!obj[k]){
+      if (!!obj[k]) {
         nonEmptyObject[k] = obj[k];
       }
     });
     return nonEmptyObject;
   }
 
-  public static copyExistingProperties<T>(src: any, dst: T): T{
-    if (!isObject(src) || !isObject(dst)) { return dst; }
+  public static copyExistingProperties<T>(src: any, dst: T): T {
+    if (!isObject(src) || !isObject(dst)) {
+      return dst;
+    }
     Object.keys(dst).forEach(k => {
-      if (src.hasOwnProperty(k)){
+      if (src.hasOwnProperty(k)) {
         dst[k] = src[k];
       }
     });
     return dst;
   }
 
-  public static copyProperties<T>(src: any, dst: T): T{
-    if (!isObject(src) || !isObject(dst)) { return dst; }
+  public static copyProperties<T>(src: any, dst: T): T {
+    if (!isObject(src) || !isObject(dst)) {
+      return dst;
+    }
     Object.keys(src).forEach(k => {
-        dst[k] = src[k];
+      dst[k] = src[k];
     });
     return dst;
   }
 
+  public static copyPropertiesIfNotExist<T>(src: any, dst: T): T {
+    if (!isObject(src) || !isObject(dst)) {
+      return dst;
+    }
+    Object.keys(src).forEach(k => {
+      if (!dst.hasOwnProperty(k)) {
+        dst[k] = src[k];
+      }
+    });
+    return dst;
+  }
 
-  public static tryGetEmptyConstructorObject<T>(ctr: any): T | undefined{
-    try{
+  public static tryGetEmptyConstructorObject<T>(ctr: any): T | undefined {
+    try {
       return new ctr();
-    } catch (e){
+    } catch (e) {
       return;
     }
   }
 
-  public static deepClone(obj: any): any{
-    try{
+  public static deepClone(obj: any): any {
+    try {
       return JSON.parse(JSON.stringify(obj));
     } catch (e) {
       return undefined;
     }
+  }
+
+  private static isEmpty(obj: any): any {
+    if (!isObject(obj)) {
+      return true;
+    }
+    return Object.keys(obj).length === 0;
   }
 }

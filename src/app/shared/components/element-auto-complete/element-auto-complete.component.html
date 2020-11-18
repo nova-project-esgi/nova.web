@@ -1,0 +1,13 @@
+<mat-form-field>
+  <mat-label>{{label}}</mat-label>
+  <input #elementTip="matTooltip" [formControl]="elementCtrl" [matAutocomplete]="auto"
+         matInput matTooltip="" type="text">
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+    <mat-option *ngFor="let element of filteredElements | async" [value]="elementVal(element)"
+                role="menuitem">
+      {{elementVal(element)}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+<ng-content></ng-content>

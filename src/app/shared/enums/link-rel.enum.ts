@@ -1,5 +1,5 @@
 export enum LinkRelEnum {
-  STREAM= 'stream',
+  STREAM = 'stream',
   PREVIOUS = 'previous',
   CURRENT = 'current',
   NEXT = 'next',

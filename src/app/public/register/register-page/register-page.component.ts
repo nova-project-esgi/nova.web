@@ -1,14 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
-import {UserRegisterCmdDto} from '../../../shared/models/users/UserRegisterCmdDto';
-import {CustomValidators} from 'ngx-custom-validators';
-import {eqValidator} from '../../../shared/validators/object.validators';
+import {Component, OnInit} from '@angular/core';
+import {UserRegisterCmdDto} from '../../../shared/models/users/user-register-cmd.dto';
 
 @Component({
   selector: 'app-register-page',
   templateUrl: './register-page.component.html',
-  styles: [
-  ]
+  styles: []
 })
 export class RegisterPageComponent implements OnInit {
 

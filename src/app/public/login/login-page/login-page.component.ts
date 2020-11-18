@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {UserLoginCmdDto} from '../../../shared/models/users/UserLoginCmdDto';
 import {Store} from '@ngrx/store';
-import {authenticate} from '../../../core/actions/user.actions';
-import {AppState} from '../../../core/states/app.state';
-import {Payload} from '../../../shared/redux/Payload';
-import {selectConnectedUser} from '../../../core/selectors/user.selectors';
-import {UserLogin} from '../../../shared/models/users/UserLogin';
+import {authenticate} from '../../../core/state/user/user.actions';
+import {State} from '../../../core/state/state';
+import {Payload} from '../../../shared/redux/payload';
+import {selectConnectedUser} from '../../../core/state/user/user.selectors';
+import {UserLogin} from '../../../shared/models/users/user-login';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -14,16 +14,16 @@ import {UserLogin} from '../../../shared/models/users/UserLogin';
 })
 export class LoginPageComponent implements OnInit {
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<State>, private router: Router) {
   }
 
   ngOnInit(): void {
     this.store.select(selectConnectedUser).subscribe(connectedUser => {
-      console.log(connectedUser);
     });
   }
 
   logUser(user: UserLogin): void {
-    this.store.dispatch(authenticate(new Payload<UserLoginCmdDto>(new UserLoginCmdDto(user))));
+    this.store.dispatch(authenticate(new Payload<UserLogin>(user)));
+    this.router.navigate(['home']);
   }
 }

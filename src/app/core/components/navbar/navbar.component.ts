@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {selectConnectedUser} from '../../selectors/user.selectors';
-import {User} from '../../../shared/models/users/User';
+import {selectConnectedUser} from '../../state/user/user.selectors';
+import {User} from '../../../shared/models/users/user';
+import {logOut} from '../../state/user/user.actions';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -12,11 +14,15 @@ export class NavbarComponent implements OnInit {
 
   user?: User;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private router: Router) {
   }
 
   ngOnInit(): void {
     this.store.select(selectConnectedUser).subscribe(user => this.user = user);
   }
 
+  logOut(): void {
+    this.store.dispatch(logOut());
+    this.router.navigate(['home']);
+  }
 }

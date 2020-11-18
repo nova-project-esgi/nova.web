@@ -1,14 +1,11 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {UserRegisterCmdDto} from '../../../shared/models/users/UserRegisterCmdDto';
-import {UserLoginCmdDto} from '../../../shared/models/users/UserLoginCmdDto';
-import {UserLogin} from '../../../shared/models/users/UserLogin';
+import {UserLogin} from '../../../shared/models/users/user-login';
 
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
-  styles: [
-  ]
+  styles: []
 })
 export class LoginFormComponent implements OnInit {
   userLoginForm: FormGroup;
@@ -17,6 +14,7 @@ export class LoginFormComponent implements OnInit {
   rememberMeCtrl: FormControl;
 
   @Output() validUserChange = new EventEmitter<UserLogin>();
+
   constructor(private formBuilder: FormBuilder) {
   }
 

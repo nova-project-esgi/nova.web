@@ -8,8 +8,8 @@ export class EnumUtils {
     return this.convertArrEnum(enumeration, convertOrder);
   }
 
-  public static convertEnumToObj<T>(enumeration: any): {[p: string]: T[keyof T]}{
-    const enumObj: {[p: string]: T[keyof T]} = {};
+  public static convertEnumToObj<T>(enumeration: any): { [p: string]: T[keyof T] } {
+    const enumObj: { [p: string]: T[keyof T] } = {};
     this.convertEnumToItemList(enumeration).forEach(item => enumObj[item.key] = item.value);
     return enumObj;
   }
@@ -19,9 +19,9 @@ export class EnumUtils {
     const halfSize = enumeration.length / 2;
     for (let i = 0; i < halfSize; i++) {
       if (convertOrder === ConvertOrder.KEY) {
-        itemList.push({ key: enumeration[i], value: enumeration[halfSize + i] });
+        itemList.push({key: enumeration[i], value: enumeration[halfSize + i]});
       } else {
-        itemList.push({ value: enumeration[i], key: enumeration[halfSize + i] });
+        itemList.push({value: enumeration[i], key: enumeration[halfSize + i]});
       }
     }
     return itemList;
@@ -32,9 +32,9 @@ export class EnumUtils {
     const keys = Object.keys(enumeration).filter(k => isNaN(Number(k)));
     keys.forEach(k => {
       if (convertOrder === ConvertOrder.KEY) {
-        itemList.push({ key: k, value: enumeration[k] });
+        itemList.push({key: k, value: enumeration[k]});
       } else {
-        itemList.push({ key: enumeration[k], value: k });
+        itemList.push({key: enumeration[k], value: k});
       }
     });
     return itemList;
