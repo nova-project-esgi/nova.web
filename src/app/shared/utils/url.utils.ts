@@ -2,7 +2,7 @@ import {KeyValue} from '@angular/common';
 import {JsonUtils} from './json.utils';
 import {QueryUtils} from './query.utils';
 import {QueryEnum} from '../enums/query.enum';
-import {GetParams} from '../../core/services/http/api-service.base';
+import {GetParams} from '../http/requests/get.params';
 
 export class UrlUtils {
 
@@ -23,18 +23,16 @@ export class UrlUtils {
   }
 
   private static setUrlParams(params: KeyValue<string, any>[], url: URL): URL {
-    params = this.convertKeyValueArrayEntry(params);
     params.forEach(param => {
-      if (param.key.endsWith('[]')) {
-        url.searchParams.append(param.key, JsonUtils.stringifyNonString(param.value));
-      } else {
-        if (!param.value) {
+        if (Array.isArray(param.value)) {
+          param.value.forEach(v => url.searchParams.append(param.key, JsonUtils.stringifyNonString(v)));
+        } else if (!param.value) {
           url.searchParams.delete(param.key);
         } else {
           url.searchParams.set(param.key, JsonUtils.stringifyNonString(param.value));
         }
       }
-    });
+    );
     return url;
   }
 
@@ -62,7 +60,7 @@ export class UrlUtils {
     const resKeyVal: KeyValue<string, any>[] = [];
     keyVal.forEach(kV => {
       if (Array.isArray(kV.value)) {
-        kV.value.forEach(v => resKeyVal.push({key: `${kV.key}[]`, value: v}));
+        kV.value.forEach(v => resKeyVal.push({key: kV.key, value: v}));
       } else {
         resKeyVal.push(kV);
       }
@@ -95,5 +93,6 @@ export class UrlUtils {
       ...QueryUtils.getQueryArrayFromPropertiesArray(params.descOrderColumns, QueryEnum.DESC_ORDER_COLUMNS)
     ).toString();
   }
+
 
 }

@@ -1,7 +1,7 @@
 import {User} from '../../../shared/models/users/user';
 import * as UserActions from './user.actions';
 import {Action, createReducer, on} from '@ngrx/store';
-import {LoadableLogState} from '../../../shared/states/loadable-log.state';
+import {LoadableLogState} from '../../../shared/redux/states/loadable-log.state';
 
 export class State extends LoadableLogState {
   connectedUser?: User;

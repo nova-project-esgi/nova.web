@@ -1,4 +1,5 @@
 import {ILinkDto} from './i-link.dto';
+import {LinkRelEnum} from '../../enums/link-rel.enum';
 
 export class PaginationMetadata<T> {
   public values: Array<T>;
@@ -11,3 +12,6 @@ export class PaginationMetadata<T> {
     this.total = total;
   }
 }
+
+
+

@@ -1,15 +1,12 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav mode="side" position="end">
-    <app-events-filter (filterReset)="onFilterReset()" [filter]="eventFilter" [languages]="languages"
-                       [eventTitles]="eventTitles" (filterChanged)="onFilterChanged($event)"></app-events-filter>
+    <app-events-filter (filterReset)="onFilterReset()" [filter]="eventsTitleFilter" [languages]="languages"
+                       [titlesObs]="titlesObs" (filterConfirmed)="getTranslatedEvents()"></app-events-filter>
   </mat-sidenav>
   <mat-sidenav-content class="min-vh-100">
     <div class="mx-2">
       <div class="row px-3 mx-0">
         <div class="col">
-          <div class="row">
-            <h2>Créer un tag</h2>
-          </div>
           <div class="row">
             <div class="col-4 px-0">
             </div>

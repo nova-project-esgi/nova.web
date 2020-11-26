@@ -1,6 +1,6 @@
 import {errorGetAllLanguages, getAllLanguages, successGetAllLanguages} from './language.actions';
 import {Action, createReducer, on} from '@ngrx/store';
-import {LanguageDto} from '../../models/languages/language.dto';
+import {LanguageDto} from '../../../models/languages/language.dto';
 import {createEntityAdapter, EntityAdapter} from '@ngrx/entity';
 import {LoadableLogEntityState} from '../../states/loadable-log-entity.state';
 

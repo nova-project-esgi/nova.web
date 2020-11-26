@@ -3,7 +3,7 @@ import {ApiServiceBase} from './api-service.base';
 import {environment} from '../../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {UserResumeDto} from '../../../shared/models/users/user-resume.dto';
+import {ConnectedUser} from '../../../shared/models/users/connected.user';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +15,7 @@ export class UserService extends ApiServiceBase {
     super();
   }
 
-
-  getByToken(token: string): Observable<UserResumeDto> {
-    return this.http.get<UserResumeDto>(`${this.url}/${token}`);
+  getByToken(token: string): Observable<ConnectedUser> {
+    return this.http.get<ConnectedUser>(`${this.url}/${token}`);
   }
 }

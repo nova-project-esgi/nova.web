@@ -1,4 +1,4 @@
-import {LinkRelEnum} from '../enums/link-rel.enum';
+import {LinkRelEnum} from '../../enums/link-rel.enum';
 
 export interface ILinkDto {
   href: string;

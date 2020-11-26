@@ -1,7 +1,8 @@
-import {ObjectUtils} from '../../utils/object.utils';
+import * as _ from 'lodash';
 
 export class TranslatedEventDto {
   id: string = null;
+  translationId: string = null;
   isDaily: boolean = null;
   isActive: boolean = null;
   title: string = null;
@@ -9,6 +10,6 @@ export class TranslatedEventDto {
   languageCode: string = null;
 
   constructor(event: Partial<TranslatedEventDto>) {
-    ObjectUtils.copyProperties(event, this);
+    _.assign(event, this);
   }
 }

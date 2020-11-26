@@ -3,7 +3,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {createAction, props} from '@ngrx/store';
 import {Payload} from '../../../shared/redux/payload';
 import {UserLogin} from '../../../shared/models/users/user-login';
-import {UserResumeDto} from '../../../shared/models/users/user-resume.dto';
+import {ConnectedUser} from '../../../shared/models/users/connected.user';
 
 export enum ActionTypes {
   REGISTER_USER = '[user] Register user',
@@ -19,7 +19,7 @@ export const authenticateRememberedUser = createAction(ActionTypes.AUTHENTICATE_
 export const authenticate = createAction(ActionTypes.AUTHENTICATE_USER, props<Payload<UserLogin>>());
 export const logOut = createAction(ActionTypes.LOG_OUT);
 export const register = createAction(ActionTypes.REGISTER_USER, props<Payload<UserRegisterCmdDto>>());
-export const successAuthenticateRegister = createAction(ActionTypes.SUCCESS_AUTHENTICATE_REGISTER_USER, props<Payload<UserResumeDto>>());
+export const successAuthenticateRegister = createAction(ActionTypes.SUCCESS_AUTHENTICATE_REGISTER_USER, props<Payload<ConnectedUser>>());
 export const errorRegister = createAction(ActionTypes.ERROR_REGISTER_USER, props<Payload<HttpErrorResponse>>());
 export const errorAuthenticate = createAction(ActionTypes.ERROR_AUTHENTICATE_USER, props<Payload<HttpErrorResponse>>());
 

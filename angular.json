@@ -124,7 +124,8 @@
   },
   "defaultProject": "nova-web",
   "cli": {
-    "analytics": "d3b83b38-f74a-49d8-8b18-3eda1a84d92e"
+    "analytics": "d3b83b38-f74a-49d8-8b18-3eda1a84d92e",
+    "defaultCollection": "@ngrx/schematics"
   },
   "schematics": {
     "@schematics/angular:component": {

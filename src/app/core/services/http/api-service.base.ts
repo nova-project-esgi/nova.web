@@ -1,30 +1,13 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {LinkRelEnum} from '../../../shared/enums/link-rel.enum';
-import {KeyValue} from '@angular/common';
 import {UrlUtils} from '../../../shared/utils/url.utils';
 import {map} from 'rxjs/operators';
-import {PaginationMetadata} from '../../../shared/pagination/pagination-metadata';
+import {PaginationMetadata} from '../../../shared/http/pagination/pagination-metadata';
 import {ObservableObject} from '../../../shared/models/observable-object';
 import {HeadersEnum} from '../../../shared/enums/headers.enum';
-
-export interface GetParams<T, F = T> extends RequestParams{
-  fieldCtr?: any;
-  fields?: Array<keyof T>;
-  ascOrderColumnsCtr?: any;
-  ascOrderColumns?: Array<keyof T>;
-  descOrderCtr?: any;
-  descOrderColumns?: Array<keyof T>;
-  filterObj?: F;
-  filters?: KeyValue<string, any> [];
-}
-
-export interface RequestParams{
-  url?: string;
-  headers?: HttpHeaders | {
-    [header: string]: string | string[];
-  };
-}
+import {GetParams} from '../../../shared/http/requests/get.params';
+import {RequestParams} from '../../../shared/http/requests/request.params';
 
 export abstract class ApiServiceBase {
 

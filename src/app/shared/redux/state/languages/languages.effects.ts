@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {LanguageService} from '../../../core/services/http/language.service';
+import {LanguageService} from '../../../../core/services/http/language.service';
 import * as LanguageActions from './language.actions';
 import {catchError, map, switchMap} from 'rxjs/operators';
-import {Payload} from '../../redux/payload';
+import {Payload} from '../../payload';
 import {TypedAction} from '@ngrx/store/src/models';
-import {LanguageDto} from '../../models/languages/language.dto';
+import {LanguageDto} from '../../../models/languages/language.dto';
 import {HttpErrorResponse} from '@angular/common/http';
 import {of} from 'rxjs';
 

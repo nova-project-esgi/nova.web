@@ -6,9 +6,11 @@ import {ApiServiceBase} from './api-service.base';
 import {TranslatedEventDto} from '../../../shared/models/events/translated-event.dto';
 import {CustomContentTypeEnum} from '../../../shared/enums/custom-content-type.enum';
 import {HeadersEnum} from '../../../shared/enums/headers.enum';
-import {PaginationMetadata} from '../../../shared/pagination/pagination-metadata';
+import {PaginationMetadata} from '../../../shared/http/pagination/pagination-metadata';
 import {map, tap} from 'rxjs/operators';
-import {TranslatedEventsFilter} from '../../../shared/filters/translated-events.filter';
+import {TranslatedEventsTitleFilter} from '../../../shared/filters/events/translated-events-title.filter';
+import {EventTranslationTitleDto} from '../../../shared/models/events/event-translation-title.dto';
+import {TranslatedEventsFilter} from '../../../shared/filters/events/translated-events.filter';
 
 @Injectable({
   providedIn: 'root'
@@ -22,18 +24,23 @@ export class TranslatedEventService extends ApiServiceBase {
   }
 
   getOne(id: string, language: string): Observable<TranslatedEventDto> {
-    return this.getFiltered<TranslatedEventDto, TranslatedEventsFilter>(
+    return this.getFiltered<TranslatedEventDto, TranslatedEventsTitleFilter>(
       {url: `${this.url}/${id}`, filterObj: { language },  headers: this.getAcceptHeader(CustomContentTypeEnum.TRANSLATED_EVENT)})
       .pipe(
         map(event => new TranslatedEventDto(event))
       );
   }
 
-  getPaginatedByLanguage(language: string): Observable<PaginationMetadata<TranslatedEventDto>>{
+  getPaginatedTranslatedEventsFiltered(filter: TranslatedEventsFilter): Observable<PaginationMetadata<TranslatedEventDto>>{
     return this.getFiltered<PaginationMetadata<TranslatedEventDto>, TranslatedEventsFilter>(
-      {url: this.url, filterObj: { language },  headers: this.getAcceptHeader(CustomContentTypeEnum.TRANSLATED_EVENT)})
+      {url: this.url, filterObj: {...filter},   headers: this.getAcceptHeader(CustomContentTypeEnum.TRANSLATED_EVENT)});
+  }
+
+  getPaginatedEventsTitlesFiltered(filter: TranslatedEventsTitleFilter): Observable<EventTranslationTitleDto[]>{
+    return this.getFiltered<PaginationMetadata<EventTranslationTitleDto>, TranslatedEventsTitleFilter>(
+      {url: this.url, filterObj: {...filter},   headers: this.getAcceptHeader(CustomContentTypeEnum.EVENT_TITLE)})
       .pipe(
-        tap(eventPage => eventPage.values = eventPage.values.map(e => new TranslatedEventDto(e)))
+        map(titlesPage => titlesPage.values.map(e => new EventTranslationTitleDto(e)))
       );
   }
 }

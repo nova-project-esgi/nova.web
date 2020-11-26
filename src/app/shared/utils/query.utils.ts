@@ -10,9 +10,9 @@ export class QueryUtils {
     if (!obj){
       return [];
     }
-    let filterObj = ObjectUtils.setKeysTextBorder(obj, 'Filter', GramOrderEnum.SUFFIX);
-    filterObj = ObjectUtils.changeKeysCase(filterObj, Case.snake);
-    return UrlUtils.transformObjToParams(filterObj);
+    // let filterObj = ObjectUtils.setKeysTextBorder(obj, 'Filter', GramOrderEnum.SUFFIX);
+    // filterObj = ObjectUtils.changeKeysCase(filterObj, Case.camel);
+    return UrlUtils.transformObjToParams(obj);
   }
 
   static getQueryArrayFromConstructor(ctr: any, queryType: QueryEnum = QueryEnum.FIELDS): KeyValue<string, any>[] {

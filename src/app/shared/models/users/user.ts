@@ -9,7 +9,7 @@ export class User {
   role: Role;
 
   rememberMe: boolean;
-  token: Jwt;
+  token: string;
 
   constructor(user: Partial<User>) {
     ObjectUtils.copyProperties(user, this);

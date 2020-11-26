@@ -1,11 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FilterComponent} from '../../../shared/bases/filter.component';
-import {TranslatedEventsFilter} from '../../../shared/filters/translated-events.filter';
+import {FilterComponent} from '../../../shared/components/bases/filter.component';
+import {TranslatedEventsTitleFilter} from '../../../shared/filters/events/translated-events-title.filter';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {Observable} from 'rxjs';
+import {forkJoin, merge, Observable} from 'rxjs';
 import {LanguageDto} from '../../../shared/models/languages/language.dto';
 import {map, startWith} from 'rxjs/operators';
 import {StringUtils} from '../../../shared/utils/string.utils';
+import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import {EventTranslationTitleDto} from '../../../shared/models/events/event-translation-title.dto';
 
 
 @Component({
@@ -13,21 +15,26 @@ import {StringUtils} from '../../../shared/utils/string.utils';
   templateUrl: './events-filter.component.html',
   styles: []
 })
-export class EventsFilterComponent extends FilterComponent<TranslatedEventsFilter> implements OnInit {
+export class EventsFilterComponent extends FilterComponent<TranslatedEventsTitleFilter> implements OnInit {
 
   filterGrp: FormGroup;
   titleCtrl: FormControl;
   languageCtrl: FormControl;
 
   filteredLanguages: Observable<LanguageDto[]>;
-  filteredTitles: Observable<string[]>;
+  filteredTitles: Observable<EventTranslationTitleDto[]>;
+  titlesCopy: EventTranslationTitleDto[];
 
   @Input() languages: LanguageDto[];
-  @Input() eventTitles: string[];
+
+  @Input() titlesObs: Observable<EventTranslationTitleDto[]>;
+
+  confirmDisabled = true;
 
   constructor(private fb: FormBuilder) {
     super();
   }
+
 
   ngOnInit(): void {
     this.titleCtrl = this.fb.control('');
@@ -36,11 +43,33 @@ export class EventsFilterComponent extends FilterComponent<TranslatedEventsFilte
       name: this.titleCtrl,
       language: this.languageCtrl,
     });
-    this.titleCtrl.valueChanges.subscribe(value => this.onFilterChanged('title', value));
+
+
     this.filteredLanguages = this.languageCtrl.valueChanges.pipe(
       startWith(''),
-      map(languageCode => this.filterLanguages(languageCode))
+      map(languageCode => this.handleLanguageValue(languageCode))
     );
+
+    this.filteredTitles = merge(
+      this.titleCtrl.valueChanges.pipe(
+        startWith(''),
+        map(title => this.handleTitleValue(title))),
+      this.titlesObs.pipe(
+        map(titles => {
+          this.titlesCopy = titles;
+          return this.handleTitles(this.titleCtrl.value);
+        })
+      )
+    );
+  }
+
+
+  private handleLanguageValue(languageCode: string): LanguageDto[] {
+    const filteredLanguages = this.filterLanguages(languageCode ?? '');
+    if (filteredLanguages.length === 0 || filteredLanguages[0].displayCode !== languageCode) {
+      this.titleCtrl.disable({emitEvent: false});
+    }
+    return filteredLanguages;
   }
 
   reset(): void {
@@ -48,17 +77,38 @@ export class EventsFilterComponent extends FilterComponent<TranslatedEventsFilte
     this.filterReset.emit(true);
   }
 
-  onFilterChanged<K extends keyof TranslatedEventsFilter>(key: K, val: TranslatedEventsFilter[K]): void {
+  onFilterChanged<K extends keyof TranslatedEventsTitleFilter>(key: K, val: TranslatedEventsTitleFilter[K]): void {
     this.emitFilterChanged(key, val);
   }
 
   private filterLanguages(languageCode: string): LanguageDto[] {
-    const filteredLanguages = this.languages.filter(l => StringUtils.startWith(l.displayCode.toLowerCase(), languageCode.toLowerCase()));
-    if (filteredLanguages.length > 0 && filteredLanguages[0].displayCode === languageCode) {
-      this.emitFilterChanged('language', languageCode);
-    }
-    return filteredLanguages;
+    return this.languages.filter(l => StringUtils.startWith(l.displayCode.toLowerCase(), languageCode.toLowerCase()));
   }
 
+  private handleTitles(title: string): EventTranslationTitleDto[] {
+    const filteredValues = this.filterTitles(title);
+    this.confirmDisabled = filteredValues.length === 0;
+    return filteredValues;
+  }
+
+  private filterTitles(title: string): EventTranslationTitleDto[] {
+    return this.titlesCopy?.filter(t => StringUtils.startWith(t.title.toLowerCase(), title.toLowerCase())) ?? [];
+  }
+
+  onLanguageSelected($event: MatAutocompleteSelectedEvent): void {
+    this.filterCopy.language = $event.option.value;
+    this.titleCtrl.enable({emitEvent: false});
+  }
+
+  private handleTitleValue(title: string): EventTranslationTitleDto[] {
+    this.filterCopy.title = title;
+    this.filterChanged.emit(this.filterCopy);
+    return this.filterTitles(title);
+
+  }
+
+  confirm(): void {
+    this.filterConfirmed.emit();
+  }
 }
 

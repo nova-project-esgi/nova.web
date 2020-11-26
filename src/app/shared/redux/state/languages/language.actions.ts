@@ -1,7 +1,7 @@
 import {createAction, props} from '@ngrx/store';
-import {Payload} from '../../redux/payload';
+import {Payload} from '../../payload';
 import {HttpErrorResponse} from '@angular/common/http';
-import {LanguageDto} from '../../models/languages/language.dto';
+import {LanguageDto} from '../../../models/languages/language.dto';
 
 export enum ActionTypes {
   GET_ALL_LANGUAGES = '[languages] Get all languages',

@@ -7,10 +7,11 @@ import {EventsFilterComponent} from './events-filter/events-filter.component';
 import {SharedModule} from '../../shared/shared.module';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
-import {effects, featureKey, reducers} from './state'
+import {effects, featureKey, reducers} from './state';
+import { EventsEventComponent } from './events-event/events-event.component'
 
 @NgModule({
-  declarations: [EventsRootComponent, EventsPageComponent, EventsFilterComponent],
+  declarations: [EventsRootComponent, EventsPageComponent, EventsFilterComponent, EventsEventComponent],
   imports: [
     StoreModule.forFeature(featureKey, reducers),
     CommonModule,

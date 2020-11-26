@@ -5,7 +5,7 @@ import {UserRegisterCmdDto} from '../../../shared/models/users/user-register-cmd
 import {Observable} from 'rxjs';
 import {UserLoginCmdDto} from '../../../shared/models/users/user-login-cmd.dto';
 import {HttpClient} from '@angular/common/http';
-import {UserResumeDto} from '../../../shared/models/users/user-resume.dto';
+import {ConnectedUser} from '../../../shared/models/users/connected.user';
 
 @Injectable({
   providedIn: 'root'
@@ -29,12 +29,12 @@ export class AuthenticationService extends ApiServiceBase {
     localStorage.removeItem('token');
   }
 
-  login(user: UserLoginCmdDto): Observable<UserResumeDto> {
-    return this.http.post<UserResumeDto>(`${this.url}/login`, user);
+  login(user: UserLoginCmdDto): Observable<ConnectedUser> {
+    return this.http.post<ConnectedUser>(`${this.url}/login`, user);
   }
 
-  register(user: UserRegisterCmdDto): Observable<UserResumeDto> {
-    return this.http.post<UserResumeDto>(`${this.url}/register`, user);
+  register(user: UserRegisterCmdDto): Observable<ConnectedUser> {
+    return this.http.post<ConnectedUser>(`${this.url}/register`, user);
   }
 
 

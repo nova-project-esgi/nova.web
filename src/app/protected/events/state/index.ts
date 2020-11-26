@@ -1,24 +1,29 @@
-import {LoadableLogEntityState} from '../../../shared/states/loadable-log-entity.state';
-import {TranslatedEventDto} from '../../../shared/models/events/translated-event.dto';
 import * as fromRoot from '../../../core/state/state';
 import {ActionReducerMap} from '@ngrx/store';
+import * as fromTranslatedEvents from './translated-event';
+import * as fromLanguages from '../../../shared/redux/state/languages';
+import * as fromTitles from './event-titles';
+import {LoadableLogEntityState} from '../../../shared/redux/states/loadable-log-entity.state';
 import {LanguageDto} from '../../../shared/models/languages/language.dto';
-import * as fromTranslatedEvents from '../../../shared/state/translated-event';
-import * as fromLanguages from '../../../shared/state/languages';
+import {TranslatedEventsState} from './translated-event/translated-events.reducers';
 
 export const featureKey = 'eventFeature';
 
-export interface EventsState extends fromTranslatedEvents.TranslatedEventState, fromLanguages.LanguageState {
-  events: LoadableLogEntityState<TranslatedEventDto>;
-  languages: LoadableLogEntityState<LanguageDto>;
+export interface EventsState extends fromLanguages.LanguageState {
+  titlesState: fromTitles.EventTitleState;
+  eventsState: TranslatedEventsState;
+  languagesState: LoadableLogEntityState<LanguageDto>;
 }
+
 
 export interface State extends fromRoot.State {
   [featureKey]: EventsState;
 }
 
+
 export const reducers: ActionReducerMap<EventsState> = {
-  events: fromTranslatedEvents.reducers.events,
-  languages: fromLanguages.reducers.languages
+  eventsState: fromTranslatedEvents.reducer,
+  languagesState: fromLanguages.reducers.languagesState,
+  titlesState: fromTitles.reducer
 };
-export const effects: any[] = [...fromTranslatedEvents.effects, ...fromLanguages.effects];
+export const effects: any[] = [...fromTranslatedEvents.effects, ...fromLanguages.effects, ...fromTitles.effects];

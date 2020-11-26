@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {CursorPagination} from '../../pagination/cursor.pagination';
 import {PageEvent} from '@angular/material/paginator';
 
 @Component({
@@ -9,8 +8,8 @@ import {PageEvent} from '@angular/material/paginator';
 })
 export class PagedListComponent implements OnInit {
 
-  @Input()
-  cursor: CursorPagination<any>;
+  // @Input()
+  // cursor: CursorPagination<any>;
 
   @Input()
   disabled = false;
@@ -22,6 +21,6 @@ export class PagedListComponent implements OnInit {
   }
 
   changePage(page: PageEvent): void {
-    this.cursor?.toPage(page.pageIndex - 1).subscribe();
+    // this.cursor?.toPage(page.pageIndex - 1).subscribe();
   }
 }

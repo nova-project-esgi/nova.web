@@ -9,7 +9,7 @@ import {TypedAction} from '@ngrx/store/src/models';
 import {UserRegisterCmdDto} from '../../../shared/models/users/user-register-cmd.dto';
 import {UserLoginCmdDto} from '../../../shared/models/users/user-login-cmd.dto';
 import {Payload} from '../../../shared/redux/payload';
-import {UserResumeDto} from '../../../shared/models/users/user-resume.dto';
+import {ConnectedUser} from '../../../shared/models/users/connected.user';
 import {UserLogin} from '../../../shared/models/users/user-login';
 import {UserService} from '../../services/http/user.service';
 
@@ -28,7 +28,7 @@ export class UserEffects {
       if (this.authenticationService.token) {
         return this.userService.getByToken(this.authenticationService.token)
           .pipe(
-            map(user => new UserResumeDto({...user, rememberMe: true})));
+            map(user => new ConnectedUser({...user, rememberMe: true})));
       }
       return EMPTY;
     }),
@@ -40,11 +40,11 @@ export class UserEffects {
     switchMap((action: Payload<UserLogin> & TypedAction<string>) => this.authenticationService
       .login(new UserLoginCmdDto(action.payload))
       .pipe(
-        map(user => new UserResumeDto({...user, rememberMe: action.payload.rememberMe}))
+        map(user => new ConnectedUser({...user, rememberMe: action.payload.rememberMe}))
       )),
-    map((user: UserResumeDto) => {
+    map((user: ConnectedUser) => {
       if (user.rememberMe) {
-        this.authenticationService.token = user.token.token;
+        this.authenticationService.token = user.token;
       } else {
         this.authenticationService.removeToken();
       }
@@ -55,7 +55,7 @@ export class UserEffects {
   register$ = createEffect(() => this.actions$.pipe(
     ofType(UserActions.ActionTypes.REGISTER_USER),
     switchMap((action: UserRegisterCmdDto & TypedAction<string>) => this.authenticationService.register(action)),
-    map((user: UserResumeDto) => UserActions.successAuthenticateRegister(new Payload(user))),
+    map((user: ConnectedUser) => UserActions.successAuthenticateRegister(new Payload(user))),
     catchError((err: HttpErrorResponse) => of(UserActions.errorRegister(new Payload(err))))
   ));
 
