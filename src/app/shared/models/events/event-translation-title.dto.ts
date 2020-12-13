@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
+import {Id} from '../../ids/id';
 
-export class EventTranslationTitleDto{
+export class EventTranslationTitleDto implements Id<string>{
   id: string = null;
   title: string = null;
 

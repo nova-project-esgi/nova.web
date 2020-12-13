@@ -19,11 +19,14 @@ export class LoginPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.select(selectConnectedUser).subscribe(connectedUser => {
+      if (connectedUser) {
+        this.router.navigate(['home']);
+      }
     });
   }
 
   logUser(user: UserLogin): void {
     this.store.dispatch(authenticate(new Payload<UserLogin>(user)));
-    this.router.navigate(['home']);
+
   }
 }

@@ -26,38 +26,41 @@ export class UserEffects {
     ofType(UserActions.ActionTypes.AUTHENTICATE_REMEMBERED_USER),
     switchMap((action: TypedAction<string>) => {
       if (this.authenticationService.token) {
-        return this.userService.getByToken(this.authenticationService.token)
+        return this.authenticationService.connectByToken(this.authenticationService.token)
           .pipe(
-            map(user => new ConnectedUser({...user, rememberMe: true})));
+            map(user => UserActions.successAuthenticateRegister(new Payload(new ConnectedUser({...user, rememberMe: true})))),
+            catchError((err: HttpErrorResponse) => of(UserActions.errorAuthenticate(new Payload(err))))
+          );
       }
       return EMPTY;
     }),
-    map(user => UserActions.successAuthenticateRegister(new Payload(user))),
-    catchError((err: HttpErrorResponse) => of(UserActions.errorAuthenticate(new Payload(err))))
   ));
   authenticate$ = createEffect(() => this.actions$.pipe(
     ofType(UserActions.ActionTypes.AUTHENTICATE_USER),
     switchMap((action: Payload<UserLogin> & TypedAction<string>) => this.authenticationService
       .login(new UserLoginCmdDto(action.payload))
       .pipe(
-        map(user => new ConnectedUser({...user, rememberMe: action.payload.rememberMe}))
-      )),
-    map((user: ConnectedUser) => {
-      if (user.rememberMe) {
-        this.authenticationService.token = user.token;
-      } else {
-        this.authenticationService.removeToken();
-      }
-      return UserActions.successAuthenticateRegister(new Payload(user));
-    }),
-    catchError((err: HttpErrorResponse) => of(UserActions.errorAuthenticate(new Payload(err))))
+        map(user =>  this.onConnectedUser(user, action.payload.rememberMe)),
+        catchError((err: HttpErrorResponse) => of(UserActions.errorAuthenticate(new Payload(err))))
+      ))
   ));
   register$ = createEffect(() => this.actions$.pipe(
     ofType(UserActions.ActionTypes.REGISTER_USER),
-    switchMap((action: UserRegisterCmdDto & TypedAction<string>) => this.authenticationService.register(action)),
-    map((user: ConnectedUser) => UserActions.successAuthenticateRegister(new Payload(user))),
-    catchError((err: HttpErrorResponse) => of(UserActions.errorRegister(new Payload(err))))
+    switchMap((action: Payload<UserRegisterCmdDto> & TypedAction<string>) => this.authenticationService.register(action.payload).pipe(
+      map(user =>  this.onConnectedUser(user, action.payload.rememberMe)),
+      catchError((err: HttpErrorResponse) => of(UserActions.errorRegister(new Payload(err))))
+    ))
   ));
+
+  private onConnectedUser(user: ConnectedUser, rememberMe: boolean ): Payload<ConnectedUser> & TypedAction<UserActions.ActionTypes.SUCCESS_AUTHENTICATE_REGISTER_USER>{
+    const connectedUser = new ConnectedUser({...user, rememberMe});
+    if (connectedUser.rememberMe) {
+      this.authenticationService.token = connectedUser.token;
+    } else {
+      this.authenticationService.removeToken();
+    }
+    return UserActions.successAuthenticateRegister(new Payload(connectedUser));
+  }
 
   constructor(private authenticationService: AuthenticationService, private userService: UserService, private actions$: Actions) {
   }

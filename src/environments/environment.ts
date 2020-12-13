@@ -11,7 +11,7 @@ import 'zone.js/dist/zone-error'; // Included with Angular CLI.
 export class Environment {
   production = false;
   localUrl = 'http://localhost:4200';
-  apiUrl = '/api';
+  apiUrl = 'http://localhost:8001';
 
   constructor(env?: Partial<Environment>) {
     ObjectUtils.copyExistingProperties(env, this);

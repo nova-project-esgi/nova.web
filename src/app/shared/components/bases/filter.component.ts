@@ -9,11 +9,15 @@ export abstract class FilterComponent<T> {
 
   filterGrp: FormGroup;
 
-  filterCopy: T;
+  private _filter: T;
 
   @Input()
   set filter(filter: T) {
-    this.filterCopy = _.clone(filter);
+    this._filter = _.clone(filter);
+  }
+
+  get filter(): T{
+    return this._filter;
   }
 
 
@@ -29,8 +33,8 @@ export abstract class FilterComponent<T> {
   abstract reset(): void;
 
   protected emitFilterChanged<K extends keyof T>(key: keyof T, val: T[K]): void {
-    this.filterCopy[key] = val;
-    this.filterChanged?.emit(_.clone(this.filterCopy));
+    this._filter[key] = val;
+    this.filterChanged?.emit(_.clone(this._filter));
   }
 
 

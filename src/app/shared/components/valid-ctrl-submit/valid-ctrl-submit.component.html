@@ -1,0 +1,16 @@
+<button mat-icon-button matTooltip="Modifier"
+        *ngIf="canEdit"
+        (click)="onEdit()">
+  <mat-icon>create</mat-icon>
+</button>
+<button mat-icon-button matTooltip="Annuler"
+        *ngIf="canCancel"
+        (click)="onCancel()">
+  <mat-icon>backspace</mat-icon>
+</button>
+<button mat-icon-button matTooltip="Valider"
+        *ngIf="canValidate"
+        (click)="onValidate()">
+  <mat-icon>check</mat-icon>
+</button>
+

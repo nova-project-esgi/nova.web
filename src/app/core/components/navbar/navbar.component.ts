@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {selectConnectedUser} from '../../state/user/user.selectors';
 import {User} from '../../../shared/models/users/user';
 import {logOut} from '../../state/user/user.actions';
 import {Router} from '@angular/router';
+import {DimensionsDirective} from '../../../shared/directives/dimensions.directive';
 
 @Component({
   selector: 'app-navbar',
@@ -13,6 +14,7 @@ import {Router} from '@angular/router';
 export class NavbarComponent implements OnInit {
 
   user?: User;
+
 
   constructor(private store: Store, private router: Router) {
   }

@@ -18,6 +18,7 @@ export class RegisterFormComponent implements OnInit {
   emailCtrl: FormControl;
   pwdCtrl: FormControl;
   confirmPwdCtrl: FormControl;
+  rememberMeCtrl: FormControl;
 
   user: UserRegisterCmdDto = new UserRegisterCmdDto();
 
@@ -39,7 +40,7 @@ export class RegisterFormComponent implements OnInit {
       [Validators.required, Validators.minLength(8)]);
     this.confirmPwdCtrl = this.fb.control('',
       [Validators.required, eqValidator(this.pwdCtrl)]);
-
+    this.rememberMeCtrl = this.fb.control(false);
     this.passwordForm = this.fb.group(
       {password: this.pwdCtrl, confirm: this.confirmPwdCtrl},
       {validators: CustomValidators.equalTo}
@@ -47,7 +48,8 @@ export class RegisterFormComponent implements OnInit {
     this.userForm = this.fb.group({
         username: this.usernameCtrl,
         email: this.emailCtrl,
-        passwordForm: this.passwordForm
+        passwordForm: this.passwordForm,
+        rememberMe: this.rememberMeCtrl
       }
     );
   }
@@ -56,18 +58,21 @@ export class RegisterFormComponent implements OnInit {
     this.user.email = this.emailCtrl.value;
     this.user.username = this.usernameCtrl.value;
     this.user.password = this.pwdCtrl.value;
+    this.user.rememberMe = this.rememberMeCtrl.value;
     this.validUserChange.emit(this.user);
   }
 
   reset(): void {
     this.userForm.reset({
       username: this.user.username,
-      email: this.user.email
+      email: this.user.email,
+      rememberMe: false
     });
     this.passwordForm.reset({
       password: '',
       confirm: ''
     });
+
   }
 
 }

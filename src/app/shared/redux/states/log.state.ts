@@ -1,7 +1,8 @@
 import {ObjectUtils} from '../../utils/object.utils';
+import {logType} from './log.types';
 
 export interface Log {
-  type: string;
+  type: string | logType;
   message: string;
 }
 

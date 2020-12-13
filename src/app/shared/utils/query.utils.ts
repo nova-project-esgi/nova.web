@@ -4,6 +4,7 @@ import {KeyValue} from '@angular/common';
 import {UrlUtils} from './url.utils';
 import {GramOrderEnum} from '../enums/gram-order.enum';
 import {QueryEnum} from '../enums/query.enum';
+import {PaginationInfo} from '../http/pagination/pagination-info';
 
 export class QueryUtils {
   static getFilterQueryFromObj<T>(obj: T): KeyValue<string, any>[] {
@@ -14,6 +15,7 @@ export class QueryUtils {
     // filterObj = ObjectUtils.changeKeysCase(filterObj, Case.camel);
     return UrlUtils.transformObjToParams(obj);
   }
+
 
   static getQueryArrayFromConstructor(ctr: any, queryType: QueryEnum = QueryEnum.FIELDS): KeyValue<string, any>[] {
     if (!ctr){

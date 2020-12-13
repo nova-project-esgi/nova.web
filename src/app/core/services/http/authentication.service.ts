@@ -37,5 +37,7 @@ export class AuthenticationService extends ApiServiceBase {
     return this.http.post<ConnectedUser>(`${this.url}/register`, user);
   }
 
-
+  connectByToken(token: string): Observable<ConnectedUser> {
+    return this.http.get<ConnectedUser>(`${this.url}?token=${token}`);
+  }
 }

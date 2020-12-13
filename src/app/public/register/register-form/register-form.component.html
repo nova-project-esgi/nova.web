@@ -42,6 +42,11 @@
         </mat-error>
       </div>
     </div>
+    <mat-checkbox class="my-1"
+                  formControlName="rememberMe"
+                  labelPosition="after">
+      Se souvenir de moi
+    </mat-checkbox>
     <div class="row d-flex justify-content-start">
       <button [disabled]="!isFormValid" class="border-primary mx-2" color="primary" id="register-button-sign-up"
               mat-stroked-button type="submit">

@@ -1,0 +1,28 @@
+<form [formGroup]="filterGrp" class="mx-4 py-4">
+  <div class="d-flex">
+    <mat-form-field>
+      <mat-label>Langue</mat-label>
+      <input [formControl]="languageCtrl" [matAutocomplete]="languageAuto" matInput type="text">
+      <mat-autocomplete #languageAuto="matAutocomplete" (optionSelected)="onLanguageSelected($event)">
+        <mat-option *ngFor="let language of filteredLanguages | async" [value]="language.displayCode">
+          {{language.displayCode}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  <div class="d-flex">
+    <mat-form-field>
+      <mat-label>Titre</mat-label>
+      <input [formControl]="titleCtrl" [matAutocomplete]="titleAuto" matInput type="text">
+      <mat-autocomplete #titleAuto="matAutocomplete">
+        <mat-option *ngFor="let title of filteredTitles | async" [value]="title.title">
+          {{title.title}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  <div class="d-flex">
+    <button class="mx-auto" (click)="confirm()" mat-stroked-button color="primary" [disabled]="confirmDisabled">Filtrer</button>
+    <button class="mx-auto" (click)="reset()" mat-stroked-button color="warn">Réinitialiser</button>
+  </div>
+</form>

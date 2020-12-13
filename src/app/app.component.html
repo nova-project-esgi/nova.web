@@ -1,4 +1,6 @@
 <app-navbar></app-navbar>
-<router-outlet>
-  <span class="loader" *ngIf="loading"></span>
-</router-outlet>
+<div appDimensions>
+  <router-outlet>
+    <span class="loader" *ngIf="loading"></span>
+  </router-outlet>
+</div>

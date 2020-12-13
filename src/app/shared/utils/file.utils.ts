@@ -8,7 +8,7 @@ export class FileUtils {
       byteString = unescape(base64.split(',')[1]);
     }
 
-    // separate out the mime component
+    // separate out the mime components
     const mimeString = base64.split(',')[0].split(':')[1].split(';')[0];
 
     // write the bytes of the string to a typed array

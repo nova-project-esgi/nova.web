@@ -1,8 +1,8 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {LinkRelEnum} from '../../../shared/enums/link-rel.enum';
 import {UrlUtils} from '../../../shared/utils/url.utils';
-import {map} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {PaginationMetadata} from '../../../shared/http/pagination/pagination-metadata';
 import {ObservableObject} from '../../../shared/models/observable-object';
 import {HeadersEnum} from '../../../shared/enums/headers.enum';
@@ -14,8 +14,12 @@ export abstract class ApiServiceBase {
   protected abstract url: string;
   protected abstract http: HttpClient;
 
-  protected getAcceptHeader(contentType: string): HttpHeaders{
+  protected getAcceptHeader(contentType: string): HttpHeaders {
     return new HttpHeaders({[HeadersEnum.ACCEPT]: contentType});
+  }
+
+  protected getContentTypeHeader(contentType: string): HttpHeaders {
+    return new HttpHeaders({[HeadersEnum.CONTENT_TYPE]: contentType});
   }
 
   protected getPatchableFiltered<T, F = T, P = T>(obj: GetParams<P, F>): Observable<ObservableObject<T>> {
@@ -58,8 +62,12 @@ export abstract class ApiServiceBase {
 
   protected createAndLocate<T>(request: RequestParams, body: T): Observable<string> {
     return this.http.post(request.url, body, {observe: 'response', headers: request.headers}).pipe(
-      map(value => value.headers.get('location'))
+      map((value: HttpResponse<any>) => value.headers.get('location'))
     );
+  }
+
+  protected createAndGet<T, R>(request: RequestParams, body: T): Observable<R> {
+    return this.createAndLocate(request, body).pipe(switchMap(location => this.http.get<R>(location)));
   }
 
   protected createAndGetIds<T>(request: RequestParams, body: T): Observable<number[]> {

@@ -3,6 +3,7 @@ import {JsonUtils} from './json.utils';
 import {QueryUtils} from './query.utils';
 import {QueryEnum} from '../enums/query.enum';
 import {GetParams} from '../http/requests/get.params';
+import {PaginationInfo} from '../http/pagination/pagination-info';
 
 export class UrlUtils {
 
@@ -26,7 +27,7 @@ export class UrlUtils {
     params.forEach(param => {
         if (Array.isArray(param.value)) {
           param.value.forEach(v => url.searchParams.append(param.key, JsonUtils.stringifyNonString(v)));
-        } else if (!param.value) {
+        } else if (param.value == null) {
           url.searchParams.delete(param.key);
         } else {
           url.searchParams.set(param.key, JsonUtils.stringifyNonString(param.value));
@@ -84,6 +85,7 @@ export class UrlUtils {
   static convertGetParamsToUrl<P, F = P>(params: GetParams<P, F>): string {
     return UrlUtils.getUrlWithQueries(params.url,
       ...QueryUtils.getFilterQueryFromObj(params.filterObj),
+      ...QueryUtils.getFilterQueryFromObj(params.pagination ? new PaginationInfo(params.pagination) : null),
       ...(params.filters ?? []),
       ...QueryUtils.getQueryArrayFromConstructor(params.fieldCtr, QueryEnum.FIELDS),
       ...QueryUtils.getQueryArrayFromPropertiesArray(params.fields, QueryEnum.FIELDS),

@@ -1,15 +1,19 @@
 import {ObjectUtils} from '../../utils/object.utils';
+import * as _ from 'lodash';
+import {Id} from '../../ids/id';
 
-export class LanguageDto {
+export class LanguageDto implements Id<string>{
   id: string;
   code: string;
   subCode?: string;
+  canUpdate =  false;
 
   constructor(language: Partial<LanguageDto>) {
-    ObjectUtils.copyProperties(language, this);
+    _.assign(this, language);
   }
 
   get displayCode(): string {
     return this.subCode ? `${this.code}-${this.subCode}` : this.code;
   }
+
 }

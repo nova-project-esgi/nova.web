@@ -15,7 +15,5 @@ export class UserService extends ApiServiceBase {
     super();
   }
 
-  getByToken(token: string): Observable<ConnectedUser> {
-    return this.http.get<ConnectedUser>(`${this.url}/${token}`);
-  }
+
 }

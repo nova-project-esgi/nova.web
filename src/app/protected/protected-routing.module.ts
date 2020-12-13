@@ -8,6 +8,8 @@ const routes: Routes = [
   {
     path: '', component: ProtectedRootComponent, canActivate: [AuthGuardService], children: [
       {path: 'events', loadChildren: () => import('./events/events.module').then(m => m.EventsModule)},
+      {path: 'languages', loadChildren: () => import('./languages/languages.module').then(m => m.LanguagesModule)},
+      {path: 'resources', loadChildren: () => import('./resources/resources.module').then(m => m.ResourcesModule)},
     ]
   }
 ];
