@@ -6,15 +6,10 @@ export const isOfTypeByKey = <T>(
 
 export const isOfTypeByKeys = <T>(
   varToBeChecked: any,
-  ...propertiesToCheckFor: string[]
+  ...propertiesToCheckFor: (keyof T)[]
 ): varToBeChecked is T =>
   propertiesToCheckFor.every(key => (varToBeChecked as T)[key] !== undefined);
 
-// export const isOfTypeByCtr = <T>(
-//   varToBeChecked: any,
-//   ctr: any
-// ): varToBeChecked is T =>
-//   isOfTypeByKeys<T>(varToBeChecked, ...ObjectUtils.getPropertiesByType(ctr));
 
 export const isObject = (obj: any): boolean => {
   return !!obj && typeof obj === 'object';

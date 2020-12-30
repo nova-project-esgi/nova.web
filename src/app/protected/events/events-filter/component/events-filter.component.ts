@@ -11,8 +11,8 @@ import {EventTranslationTitleDto} from '../../../../shared/models/events/event-t
 import * as fromEventsFilter from '../state/events-filter.reducer';
 import * as EventsFilterSelectors from '../state/events-filter.selectors';
 import * as EventsFilterActions from '../state/events-filter.actions';
-import * as LanguagesSelectors from '../../../../shared/languages/languages.selectors';
-import * as LanguagesActions from '../../../../shared/languages/languages.actions';
+import * as LanguagesSelectors from '../../../../shared/states/languages/languages.selectors';
+import * as LanguagesActions from '../../../../shared/states/languages/languages.actions';
 import {Store} from '@ngrx/store';
 import {Payload} from '../../../../shared/redux/payload';
 import * as _ from 'lodash';
@@ -35,7 +35,7 @@ export class EventsFilterComponent extends FilterComponent<TranslatedEventsTitle
 
   languages: LanguageDto[];
 
-  confirmDisabled = true;
+  // confirmDisabled = true;
   titlesObs: Observable<EventTranslationTitleDto[]>;
 
 
@@ -69,7 +69,7 @@ export class EventsFilterComponent extends FilterComponent<TranslatedEventsTitle
       this.titlesObs.pipe(
         map(titles => {
           this.titles = _.assign(titles);
-          return this.handleTitles(this.titleCtrl.value);
+          return this.filterTitles(this.titleCtrl.value);
         })
       )
     );
@@ -85,18 +85,16 @@ export class EventsFilterComponent extends FilterComponent<TranslatedEventsTitle
   }
 
   private handleStore(): void {
-    this.store.select(EventsFilterSelectors.selectLanguages).subscribe(languages => {
-      if (languages?.length === 0) {
-        this.store.dispatch(EventsFilterActions.loadLanguages());
-      } else {
-        this.languages = languages;
-      }
+    this.store.select(LanguagesSelectors.selectLanguages).subscribe(languages => {
+      this.languages = languages;
     });
+    this.store.dispatch(LanguagesActions.loadLanguages());
+
     this.store.select(EventsFilterSelectors.selectFilter).subscribe(filter => {
-      this.filter = filter;
-      if (this.filter.language && this.filter.title) {
+      if (!_.isEqual(this.filter, filter) && filter.language) {
         this.store.dispatch(EventsFilterActions.loadTitles());
       }
+      this.filter = filter;
     });
     this.titlesObs = this.store.select(EventsFilterSelectors.selectTitles);
   }
@@ -114,18 +112,8 @@ export class EventsFilterComponent extends FilterComponent<TranslatedEventsTitle
     this.filterReset.emit(true);
   }
 
-  onFilterChanged<K extends keyof TranslatedEventsTitleFilter>(key: K, val: TranslatedEventsTitleFilter[K]): void {
-    this.emitFilterChanged(key, val);
-  }
-
   private filterLanguages(languageCode: string): LanguageDto[] {
     return this.languages?.filter(l => StringUtils.startWith(l.displayCode.toLowerCase(), languageCode.toLowerCase())) ?? [];
-  }
-
-  private handleTitles(title: string): EventTranslationTitleDto[] {
-    const filteredValues = this.filterTitles(title);
-    this.confirmDisabled = filteredValues.length === 0;
-    return filteredValues;
   }
 
   private filterTitles(title: string): EventTranslationTitleDto[] {
@@ -133,13 +121,12 @@ export class EventsFilterComponent extends FilterComponent<TranslatedEventsTitle
   }
 
   onLanguageSelected($event: MatAutocompleteSelectedEvent): void {
-    this.filter.language = $event.option.value;
     this.titleCtrl.enable({emitEvent: false});
+    this.filterChanged.emit({...this.filter, language: $event.option.value});
   }
 
   private handleTitleValue(title: string): EventTranslationTitleDto[] {
-    this.filter.title = title;
-    this.filterChanged.emit(this.filter);
+    this.filterChanged.emit({...this.filter, title});
     return this.filterTitles(title);
   }
 

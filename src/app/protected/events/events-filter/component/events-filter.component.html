@@ -14,7 +14,7 @@
     <mat-form-field>
       <mat-label>Titre</mat-label>
       <input [formControl]="titleCtrl" [matAutocomplete]="titleAuto" matInput type="text">
-      <mat-autocomplete #titleAuto="matAutocomplete">
+      <mat-autocomplete #titleAuto="matAutocomplete" >
         <mat-option *ngFor="let title of filteredTitles | async" [value]="title.title">
           {{title.title}}
         </mat-option>
@@ -22,7 +22,7 @@
     </mat-form-field>
   </div>
   <div class="d-flex">
-    <button class="mx-auto" (click)="confirm()" mat-stroked-button color="primary" [disabled]="confirmDisabled">Filtrer</button>
+    <button class="mx-auto" (click)="confirm()" mat-stroked-button color="primary" [disabled]="titleCtrl.disabled">Filtrer</button>
     <button class="mx-auto" (click)="reset()" mat-stroked-button color="warn">Réinitialiser</button>
   </div>
 </form>

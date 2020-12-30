@@ -10,3 +10,8 @@ export function eqValidator(comparedCtrl: AbstractControl): ValidatorFn {
   };
 }
 
+export function ctrValidator(constructorName: string): ValidatorFn{
+  return (ctrl: AbstractControl): ValidationErrors | null => {
+    return ctrl.value?.constructor?.name === constructorName ? null : {ctrValidatorErr: true};
+  };
+}

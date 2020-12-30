@@ -5,6 +5,15 @@ export function lengthValidator(...lengths: number[]): ValidatorFn {
     if (lengths.some(l => l === (ctrl.value?.length ?? 0))) {
       return null;
     }
-    return {lengthValidator: true};
+    return {lengthValidatorError: true};
+  };
+}
+
+export function betweenValidator(min: number, max: number): ValidatorFn {
+  return (ctrl: AbstractControl): ValidationErrors | null => {
+    if (ctrl.value?.length >= min && ctrl.value?.length <= max) {
+      return null;
+    }
+    return {betweenValidatorError: true};
   };
 }

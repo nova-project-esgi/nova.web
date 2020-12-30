@@ -8,8 +8,6 @@ export const languagesFilterFeatureKey = 'languagesFilter';
 
 export class State extends LoadableLogState {
   filter: LanguagesFilter = new LanguagesFilter();
-  languages: LanguageDto[] = [];
-
 }
 
 export const initialState: State = new State();
@@ -18,10 +16,5 @@ export const initialState: State = new State();
 export const reducer = createReducer(
   initialState,
   on(LanguagesFilterActions.updateFilter, (state, a) => ({...state, filter: a.payload})),
-  on(LanguagesFilterActions.loadLanguages, state => LoadableLogState.toLoadState(state, LanguagesFilterActions.loadLanguages)),
-  on(LanguagesFilterActions.loadLanguagesSuccess, (state, action) => {
-    return {...LoadableLogState.toLoadSuccessState(state, LanguagesFilterActions.loadLanguagesSuccess), languages: action.payload};
-  }),
-  on(LanguagesFilterActions.loadLanguagesFailure, (state, action) => LoadableLogState.toLoadFailureState(state, action))
 );
 

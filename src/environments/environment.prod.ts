@@ -1,3 +1,6 @@
-import {Environment} from './environment';
+import {BaseEnvironment} from './base-environment';
 
-export const environment = new Environment({production: true})
+export const environment = new BaseEnvironment({
+  production: true,
+  apiUrl: 'http://freenetaccess.freeboxos.fr:8001'
+});

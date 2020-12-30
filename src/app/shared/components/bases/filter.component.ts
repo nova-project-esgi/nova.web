@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 })
 export abstract class FilterComponent<T> {
 
-  filterGrp: FormGroup;
+  filterGrp: FormGroup ;
 
   private _filter: T;
 

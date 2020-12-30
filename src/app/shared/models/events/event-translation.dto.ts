@@ -1,16 +1,25 @@
 import * as _ from 'lodash';
-import {Id} from '../../ids/id';
+import {LanguageDto} from '../languages/language.dto';
+import {EventTranslationEditionDto} from './event-translation-edition.dto';
 
-export class EventTranslationDto implements  Id<string>{
+export class EventTranslationDto {
 
-  id: string = null;
-  eventId: string = null;
-  languageId: string = null;
   title: string = null;
   description: string = null;
-  language: string = null;
+  language: LanguageDto = null;
 
   constructor(translation?: Partial<EventTranslationDto>) {
     _.assign(this, translation);
+    this.language = new LanguageDto(translation?.language);
+  }
+
+  toEditionDto(): EventTranslationEditionDto {
+    return new EventTranslationEditionDto({
+      description: this.description,
+      title: this.title,
+      languageId: this.language.id
+    });
   }
 }
+
+

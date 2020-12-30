@@ -1,3 +1,5 @@
+import {BehaviorSubject, from, Observable, Subject} from 'rxjs';
+
 export class FileUtils {
 
   public static base64ToFile(base64: string, fileName: string): File {
@@ -19,5 +21,27 @@ export class FileUtils {
 
     const blob = new Blob([ia], {type: mimeString});
     return new File([blob], 'file.png', {type: mimeString});
+  }
+
+
+  static bufferArrayToString(buf: ArrayBuffer): string {
+    return String.fromCharCode.apply(null, new Uint16Array(buf));
+  }
+
+  static fileToString(file: File): Subject<string> {
+    const reader = new FileReader();
+    const sub = new BehaviorSubject('');
+    reader.onload = (event: any) => {
+      const res = event.target.result;
+      sub.next(res);
+      return res;
+    };
+
+    reader.onerror = (event: any) => {
+      console.log('File could not be read: ' + event.target.error.code);
+    };
+
+    reader.readAsDataURL(file);
+    return sub;
   }
 }

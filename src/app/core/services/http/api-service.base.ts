@@ -38,17 +38,17 @@ export abstract class ApiServiceBase {
   // T: return object, P: specified properties to get by model, F: filter type
   protected getFiltered<Output, Filter = Output,  P = Output>(obj: GetParams<P, Filter>): Observable<Output> {
     const url = UrlUtils.convertGetParamsToUrl(obj);
-    return this.http.get<Output>(url);
+    return this.http.get<Output>(url, {headers: obj.headers});
   }
 
   protected getAllFiltered<T, P = T, F = T>(obj: GetParams<P, F>): Observable<T[]> {
     const url = UrlUtils.convertGetParamsToUrl(obj);
-    return this.http.get<PaginationMetadata<T>>(url).pipe(map(res => res.values));
+    return this.http.get<PaginationMetadata<T>>(url, {headers: obj.headers}).pipe(map(res => res.values));
   }
 
   protected fetchAll<T, P = T, F = T>(obj: GetParams<P, F>, acc: T[] = []): Observable<T[]> {
     const url = UrlUtils.convertGetParamsToUrl(obj);
-    return new Observable(subscriber => this.http.get<PaginationMetadata<T>>(url).subscribe(value => {
+    return new Observable(subscriber => this.http.get<PaginationMetadata<T>>(url, {headers: obj.headers}).subscribe(value => {
       const nextLink = value.links.find(l => l.rel === LinkRelEnum.NEXT);
       acc.push(...value.values);
       if (nextLink) {

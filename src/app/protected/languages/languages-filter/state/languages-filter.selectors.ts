@@ -9,8 +9,4 @@ export const selectFilter = createSelector(
   selectLanguagesFilterState,
   state => state.filter
 );
-export const selectLanguages = createSelector(
-  selectLanguagesFilterState,
-  state => state.languages
-);
 

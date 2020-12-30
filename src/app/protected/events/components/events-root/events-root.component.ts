@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 
+
+import {Store} from '@ngrx/store';
+
 @Component({
   selector: 'app-events-root',
   templateUrl: './events-root.component.html',
@@ -7,8 +10,7 @@ import {Component, OnInit} from '@angular/core';
 })
 export class EventsRootComponent implements OnInit {
 
-  constructor() {
-  }
+
 
   ngOnInit(): void {
     console.log('EVENTS ROOT');

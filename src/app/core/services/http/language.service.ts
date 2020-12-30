@@ -9,6 +9,8 @@ import {LanguageEditionDto} from '../../../shared/models/languages/language-edit
 import {PaginationWrapper} from '../../../shared/http/pagination/pagination-wrapper';
 import {PaginationMetadata} from '../../../shared/http/pagination/pagination-metadata';
 import {LanguagesFilter} from '../../../shared/filters/languages/languages.filter';
+import {CustomMediaTypeEnum} from '../../../shared/enums/custom-media-type.enum';
+import {LanguageWithAvailableActionsDto} from '../../../shared/models/languages/language-with-available-actions.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +42,16 @@ export class LanguageService extends ApiServiceBase {
   getPaginatedLanguagesFiltered(paginationWrapper: PaginationWrapper<LanguagesFilter>): Observable<PaginationMetadata<LanguageDto>> {
     return this.getFiltered<PaginationMetadata<LanguageDto>, LanguagesFilter>(
       {url: this.url, filterObj: {...paginationWrapper.content}, pagination: paginationWrapper});
+
+  }
+
+  getPaginatedLanguagesWithAvailableActionsFiltered(paginationWrapper: PaginationWrapper<LanguagesFilter>): Observable<PaginationMetadata<LanguageWithAvailableActionsDto>> {
+    return this.getFiltered<PaginationMetadata<LanguageWithAvailableActionsDto>, LanguagesFilter>(
+      {url: this.url, filterObj: {...paginationWrapper.content}, pagination: paginationWrapper, headers: this.getAcceptHeader(CustomMediaTypeEnum.LANGUAGE_WITH_AVAILABLE_ACTIONS)})
+      .pipe(map(page => {
+        page.values = page.values.map(l => new LanguageWithAvailableActionsDto(l));
+        return page;
+      }));
 
   }
 

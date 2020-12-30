@@ -1,19 +1,16 @@
-<div class="container-fluid">
-  <mat-card class="float-left ">
-    <app-events-filter (filterReset)="onFilterReset()" (filterChanged)="updateFilter($event)"
-                       (filterConfirmed)="getTranslatedEvents()"></app-events-filter>
-  </mat-card>
-  <div class="container">
-    <div class="my-3" *ngFor="let event of events" >
-      <app-events-event  [event]="event"  >
+<app-filtered-list>
+  <app-events-filter appFilteredListFilter (filterReset)="onFilterReset()" (filterChanged)="updateFilter($event)"
+                     (filterConfirmed)="getTranslatedEvents()"></app-events-filter>
+  <div appFilteredListList>
+    <div class="my-3" *ngFor="let event of elements; let i = index; trackBy:trackByFn">
+      <app-events-event [resources]="resources" [element]="event"
+                        [languages]="languages" (eventUpdated)="onEventUpdated($event)" (eventDeleted)="onEventDeleted(event)">
       </app-events-event>
     </div>
-
-    <mat-paginator *ngIf="pagination" [length]="pagination.total"
-                   [pageSize]="pagination.size"
-                   [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChange($event)">
-    </mat-paginator>
   </div>
-
-</div>
+  <mat-paginator appFilteredListPaginator *ngIf="pagination" [length]="pagination.total"
+                 [pageSize]="pagination.size"
+                 [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChange($event)">
+  </mat-paginator>
+</app-filtered-list>
 

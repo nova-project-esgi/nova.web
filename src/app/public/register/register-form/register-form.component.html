@@ -23,7 +23,7 @@
       <div class="mx-auto d-flex flex-column" formGroupName="passwordForm">
         <mat-form-field appearance="outline" class="w-100 mx-auto" id="signup-pwd-ff">
           <mat-label>Mot de passe*</mat-label>
-          <input formControlName="password" id="password-sign-up" matInput type="password">
+          <input formControlName="password" id="password-sign-up" autocomplete="new-password" matInput type="password">
           <mat-error *ngIf="pwdCtrl.dirty && pwdCtrl.hasError('minlength')">Minimum 8 caractères
           </mat-error>
           <mat-error *ngIf="pwdCtrl.dirty && pwdCtrl.hasError('required')">Le mot de passe est

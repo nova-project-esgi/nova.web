@@ -14,14 +14,8 @@ import {LanguageService} from '../../../../core/services/http/language.service';
 
 @Injectable()
 export class LanguagesFilterEffects {
-  loadLanguages$ = createEffect(() => this.actions$.pipe(
-    ofType(LanguagesFilterActions.loadLanguages.type),
-    switchMap((action: TypedAction<string>) => this.languageService.getAll().pipe(
-      map(languages => LanguagesFilterActions.loadLanguagesSuccess(new Payload<LanguageDto[]>(languages))),
-      catchError(err => of(LanguagesFilterActions.loadLanguagesFailure(new Payload<HttpErrorResponse>(err))))
-    )),
-  ));
 
-  constructor(private actions$: Actions, private languageService: LanguageService) {}
+
+  constructor(private actions$: Actions) {}
 
 }

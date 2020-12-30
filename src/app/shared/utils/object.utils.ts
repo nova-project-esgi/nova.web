@@ -25,12 +25,12 @@ export class ObjectUtils {
     }
   }
 
-  public static tryInstantiate<T>(data: any, ctr: any): T {
-    if (isOfTypeByKeys<T>(data, ...ObjectUtils.getPropertiesByType(ctr))) {
-      return new ctr(data);
-    }
-    return undefined;
-  }
+  // public static tryInstantiate<T>(data: any, ctr: any): T {
+  //   if (isOfTypeByKeys<T>(data, ...ObjectUtils.getPropertiesByType(ctr))) {
+  //     return new ctr(data);
+  //   }
+  //   return undefined;
+  // }
 
   public static changePropertyValueIfDifferent<T, K extends keyof T>(key: keyof T, obj: T, value: T[K]): boolean {
     if (value !== obj[key]) {
@@ -146,5 +146,17 @@ export class ObjectUtils {
       return true;
     }
     return Object.keys(obj).length === 0;
+  }
+
+  public static getFormData<T>(object: T): FormData {
+    const formData = new FormData();
+    Object.keys(object).forEach(key => {
+      if (object[key] instanceof File || object[key] instanceof Blob) {
+        formData.append(key, object[key]);
+      } else {
+        formData.append(key, JSON.stringify(object[key]));
+      }
+    });
+    return formData;
   }
 }

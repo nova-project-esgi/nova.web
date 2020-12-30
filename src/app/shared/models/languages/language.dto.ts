@@ -1,4 +1,3 @@
-import {ObjectUtils} from '../../utils/object.utils';
 import * as _ from 'lodash';
 import {Id} from '../../ids/id';
 
@@ -7,6 +6,7 @@ export class LanguageDto implements Id<string>{
   code: string;
   subCode?: string;
   canUpdate =  false;
+  isDefault = false;
 
   constructor(language: Partial<LanguageDto>) {
     _.assign(this, language);
@@ -17,3 +17,4 @@ export class LanguageDto implements Id<string>{
   }
 
 }
+

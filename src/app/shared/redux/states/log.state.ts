@@ -1,5 +1,6 @@
 import {ObjectUtils} from '../../utils/object.utils';
 import {logType} from './log.types';
+import * as _ from 'lodash';
 
 export interface Log {
   type: string | logType;
@@ -8,13 +9,13 @@ export interface Log {
 
 export class LogState {
   logs: Log = {
-    message: undefined,
-    type: undefined
+    message: null,
+    type: null
   };
   lastAction: string = null;
 
   constructor(state: Partial<LogState>) {
-    ObjectUtils.copyProperties(state, this);
+    _.assign(this, state);
   }
 
 }
