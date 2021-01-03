@@ -1,0 +1,42 @@
+<div class="container mt-2">
+  <mat-horizontal-stepper #stepper linear >
+
+    <mat-step [stepControl]="translationsArr" [editable]="false" >
+      <ng-template matStepLabel>Initialiser les traductions</ng-template>
+      <app-resources-edit-translations [languages]="availableLanguages" [elements]="translations" [formArray]="translationsArr" (elementsChanged)="onTranslationChanged($event)" >
+      </app-resources-edit-translations>
+      <div>
+        <button mat-button matStepperNext [disabled]="translationsArr.invalid">Suivant</button>
+      </div>
+    </mat-step>
+    <mat-step [stepControl]="difficultiesArray" [editable]="false" >
+      <ng-template matStepLabel>Spécifier les niveaux de difficulté</ng-template>
+      <app-resources-edit-difficulties (elementsChanged)="onDifficultiesChanged($event)"
+                                       [formArray]="difficultiesArray" [elements]="resourceDifficulties"
+                                       [difficulties]="difficulties"
+      ></app-resources-edit-difficulties>
+      <div>
+        <button mat-button matStepperPrevious [disabled]="difficultiesArray.invalid">Précédent</button>
+        <button mat-button matStepperNext [disabled]="difficultiesArray.invalid">Suivant</button>
+      </div>
+    </mat-step>
+
+    <mat-step [stepControl]="iconGrp" [editable]="false">
+      <ng-template matStepLabel>Ajouter un icon</ng-template>
+      <app-image-drop [hideSaveButton]="true" (pictureChanged)="iconChanged($event)"></app-image-drop >
+      <div>
+        <button mat-button matStepperPrevious>Précédent</button>
+        <button mat-button matStepperNext (click)="createResource()" [disabled]="!iconPicture">Créer</button>
+      </div>
+    </mat-step>
+    <mat-step [editable]="false">
+      <ng-template matStepLabel>Créé</ng-template>
+      <p>Language créé</p>
+      <div>
+        <button mat-button (click)="resetStepper()">Recréer</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+
+</div>
+

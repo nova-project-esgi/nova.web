@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-5 d-flex justify-content-between">
+    <mat-form-field>
+      <mat-label>Langue</mat-label>
+      <input [formControl]="languageCtrl" [matAutocomplete]="codeAuto" matInput type="text" [required]="true" >
+      <mat-autocomplete #codeAuto="matAutocomplete" (optionSelected)="onLanguageSelected($event)"  [displayWith]="displayFn">
+        <mat-option *ngFor="let code of filteredLanguages | async" [value]="code" >
+          {{code.displayCode}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Nom</mat-label>
+      <input [formControl]="nameCtrl" matInput type="text" [required]="true">
+    </mat-form-field>
+  </div>
+  <div class="col">
+    <button class="mx-2" mat-mini-fab color="primary" *ngIf="canAdd" (click)="onAddClicked()" [disabled]="formGrp.invalid"><mat-icon>add</mat-icon></button>
+    <button class="mx-2" mat-mini-fab color="warn" *ngIf="!canAdd" [disabled]="isDefaultTranslation" (click)="onDeleteClicked()"><mat-icon>clear</mat-icon></button>
+  </div>
+</div>

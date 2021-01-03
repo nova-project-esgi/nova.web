@@ -1,0 +1,15 @@
+<app-filtered-list>
+  <app-languages-filter appFilteredListFilter (filterReset)="onFilterReset()" (filterChanged)="updateFilter($event)"
+                        (filterConfirmed)="getLanguages()"></app-languages-filter>
+  <div appFilteredListList class="d-flex align-content-start flex-wrap">
+    <div *ngFor="let language of languages; let i =index; trackBy: trackByFn" class="col-3 my-2">
+      <app-languages-language [element]="language" (languageUpdated)="onLanguageUpdated($event)"
+                              (languageDeleted)="onLanguageDeleted($event)"
+                              (elementChanged)="onElementChanged($event, i)" #addedChildComponents>
+      </app-languages-language>
+    </div>
+  </div>
+  <mat-paginator appFilteredListPaginator *ngIf="pagination" [length]="pagination.total"
+                 [pageSize]="pagination.size"
+                 [pageSizeOptions]="[5,10]" (page)="onPageChange($event)"></mat-paginator>
+</app-filtered-list>

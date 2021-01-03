@@ -1,0 +1,29 @@
+<div class="container mt-2">
+  <mat-horizontal-stepper #stepper  (animationDone)="onChange()"  linear >
+
+    <mat-step [stepControl]="translationsArr" [editable]="false" >
+      <ng-template matStepLabel>Initialiser les traductions</ng-template>
+      <app-difficulties-edit-translations [languages]="languages" [formArray]="translationsArr" [elements]="translations" (elementsChanged)="onTranslationsChanged($event)"> </app-difficulties-edit-translations>
+      <div>
+        <button mat-button matStepperNext [disabled]="translationsArr.invalid">Suivant</button>
+      </div>
+    </mat-step>
+    <mat-step [stepControl]="optionsGrp" [editable]="false">
+      <ng-template matStepLabel>Sélectionner les options supplémentaires</ng-template>
+      <app-difficulties-edit-options (elementChanged)="onOptionsChanged($event)" [formGrp]="optionsGrp" [element]="option" ></app-difficulties-edit-options>
+      <div>
+        <button mat-button matStepperPrevious>Précédent</button>
+        <button mat-button matStepperNext (click)="createEvent()" [disabled]="optionsGrp.invalid">Créer</button>
+      </div>
+    </mat-step>
+    <mat-step [editable]="false">
+      <ng-template matStepLabel>Créée</ng-template>
+      <p>Difficulté créée</p>
+      <div>
+        <button mat-button (click)="resetStepper()" >Recréer</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+
+</div>
+

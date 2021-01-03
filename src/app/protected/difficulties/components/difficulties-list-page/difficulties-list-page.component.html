@@ -1,0 +1,18 @@
+<app-filtered-list>
+  <app-difficulties-filter appFilteredListFilter  (filterReset)="onFilterReset()" (filterChanged)="updateFilter($event)"
+                     (filterConfirmed)="getDifficulties()"></app-difficulties-filter>
+  <div appFilteredListList class="d-flex align-content-start flex-wrap">
+    <div *ngFor="let event of elements; let i = index; trackBy:trackByFn" class="col-6 my-2">
+      <app-difficulties-difficulty [element]="event"
+                                   [languages]="languages" (difficultyUpdated)="onDifficultyUpdated($event, i)" (difficultyDeleted)="onDifficultyDeleted(event)" >
+      </app-difficulties-difficulty>
+    </div>
+  </div>
+
+
+  <mat-paginator appFilteredListPaginator *ngIf="pagination" [length]="pagination.total"
+                 [pageSize]="pagination.size"
+                 [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChange($event)">
+  </mat-paginator>
+</app-filtered-list>
+

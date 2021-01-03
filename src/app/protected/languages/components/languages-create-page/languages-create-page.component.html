@@ -1,0 +1,36 @@
+<div class="container mt-2">
+  <mat-horizontal-stepper linear (animationDone)="onChange()" >
+
+    <mat-step [stepControl]="codeCtrl" >
+        <ng-template matStepLabel>Renseigner un code principal</ng-template>
+        <mat-form-field>
+          <mat-label>Code principal</mat-label>
+          <input matInput placeholder="en" [formControl]="codeCtrl" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext >Suivant</button>
+        </div>
+    </mat-step>
+    <mat-step [stepControl]="subCodeCtrl">
+        <ng-template matStepLabel>Renseigner un code secondaire</ng-template>
+        <mat-form-field>
+          <mat-label>Code secondaire</mat-label>
+          <input matInput [formControl]="subCodeCtrl" placeholder="US">
+          <mat-error *ngIf="subCodeCtrl.hasError('duplicateLanguageErr')">La langue existe déja</mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Précédent</button>
+          <button mat-button matStepperNext (click)="createLanguage()" [disabled]="!codesGrp.valid">Créer</button>
+        </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Créé</ng-template>
+      <p>Language créé</p>
+      <div>
+        <button mat-button (click)="reset()">Recréer</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+
+</div>
+

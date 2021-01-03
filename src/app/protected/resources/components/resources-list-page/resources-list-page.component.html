@@ -1,0 +1,13 @@
+<app-filtered-list>
+  <app-resources-filter appFilteredListFilter (filterReset)="onFilterReset()" (filterChanged)="updateFilter($event)"
+                        (filterConfirmed)="getResources()"></app-resources-filter>
+  <div appFilteredListList >
+    <div *ngFor="let resource of resources; trackBy: trackByFn" class="my-2">
+      <app-resources-resource [languages]="languages" [difficulties]="difficulties" [element]="resource" (resourceDeleted)="onResourceDeleted($event)" (resourceUpdated)="onResourceUpdated($event)">
+      </app-resources-resource>
+    </div>
+  </div>
+  <mat-paginator appFilteredListPaginator *ngIf="pagination" [length]="pagination.total"
+                 [pageSize]="pagination.size"
+                 [pageSizeOptions]="[10]" (page)="onPageChange($event)"></mat-paginator>
+</app-filtered-list>

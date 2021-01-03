@@ -1,0 +1,28 @@
+<form [formGroup]="filterGrp" class="mx-4 py-4">
+  <div class="d-flex">
+    <mat-form-field>
+      <mat-label>Code principal</mat-label>
+      <input [formControl]="codeCtrl" [matAutocomplete]="codeAuto" matInput type="text">
+      <mat-autocomplete #codeAuto="matAutocomplete" (optionSelected)="onCodeSelected($event)">
+        <mat-option *ngFor="let code of filteredCodes | async" [value]="code">
+          {{code}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  <div class="d-flex">
+    <mat-form-field>
+      <mat-label>Code secondaire</mat-label>
+      <input [formControl]="subCodeCtrl" [matAutocomplete]="subCodeAuto" matInput type="text">
+      <mat-autocomplete #subCodeAuto="matAutocomplete">
+        <mat-option *ngFor="let subCode of filteredSubCodes | async" [value]="subCode" >
+          {{subCode}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  <div class="d-flex">
+    <button class="mx-auto" (click)="confirm()" mat-stroked-button color="primary" [disabled]="confirmDisabled">Filtrer</button>
+    <button class="mx-auto" (click)="reset()" mat-stroked-button color="warn">Réinitialiser</button>
+  </div>
+</form>

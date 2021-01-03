@@ -1,0 +1,9 @@
+<app-events-edit-translation [languages]="availableLanguages"
+                             *ngFor="let translation of elements; let i = index"
+                             (elementDeleted)="onElementDeleted(i)"
+                             (elementChanged)="onElementChanged($event, i)"
+                             [element]="translation"
+                             #addedChildComponents
+></app-events-edit-translation>
+<app-events-edit-translation [languages]="availableLanguages" [canAdd]="true"
+                             (elementAdded)="onElementAdded($event)"></app-events-edit-translation>

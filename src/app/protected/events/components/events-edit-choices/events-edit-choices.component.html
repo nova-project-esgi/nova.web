@@ -1,0 +1,11 @@
+<div *ngFor="let choice of elements; let i=index" class="my-3">
+  <app-events-edit-choice #addedChildComponents
+                          [languages]="languages"
+                          [imageResources]="resources"
+                          [element]="choice"
+                          (elementDeleted)="onElementDeleted(i)"
+                          (elementChanged)="onElementChanged($event, i)"
+  ></app-events-edit-choice>
+</div>
+<app-events-edit-choice [languages]="languages" [imageResources]="resources" (elementAdded)="onElementAdded($event)" [canAdd]="true">
+</app-events-edit-choice>

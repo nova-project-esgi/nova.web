@@ -1,0 +1,4 @@
+<nav mat-tab-nav-bar mat-align-tabs="center">
+  <a class="nav-link" data-toggle="tab" id="listLink" mat-tab-link routerLink="list" routerLinkActive="active">Lister</a>
+  <a *ngIf="canCreate" class="nav-link" data-toggle="tab" id="createLink" mat-tab-link routerLink="create" routerLinkActive="active">Créer</a>
+</nav>

@@ -1,0 +1,44 @@
+<mat-card>
+  <mat-card-header class="d-flex align-items-center">
+    <img mat-card-avatar [src]="urlBackground" *ngIf="urlBackground" alt="Background"  />
+    <mat-card-title> {{title}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row d-flex my-3">
+      <div class="col-3">
+        <h3>Options: </h3>
+        <app-events-edit-options [element]="options" [formGrp]="optionsGrp" (elementChanged)="onOptionsChanged($event)"></app-events-edit-options>
+      </div>
+    </div>
+    <mat-accordion>
+      <mat-expansion-panel #backgroundPanel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="my-2">
+            Image
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-image-drop [file]="background" (pictureChanged)="onBackgroundChanged($event)" (pictureLoaded)="onPictureLoaded($event)"></app-image-drop>
+      </mat-expansion-panel>
+      <mat-expansion-panel #translationPanel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="my-2">
+            {{translations?.length}} traductions
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-events-edit-translations [elements]="translations" [languages]="languages" [formArray]="translationsArr" (elementsChanged)="onTranslationsChanged($event)"></app-events-edit-translations>
+      </mat-expansion-panel>
+      <mat-expansion-panel (opened)="loadChoices()">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{choices?.length}} choix
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-events-edit-choices [elements]="choices" [languages]="languages" [resources]="resources" [formArray]="choicesArr" (elementsChanged)="onChoicesChange($event)" ></app-events-edit-choices >
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div class="d-flex justify-content-end my-2">
+      <button mat-raised-button color="primary" [disabled]="_formGrp.invalid" (click)="update()">Valider</button>
+      <button mat-raised-button color="warn" (click)="delete()">Supprimer</button>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,22 @@
+<form class="d-flex align-items-center" [formGroup]="translationGroup">
+  <button *ngIf="isCreation" mat-mini-fab color="primary" class="mx-2" (click)="createNew()"><mat-icon>add</mat-icon></button>
+  <button *ngIf="!isCreation" mat-mini-fab color="primary" class="mx-2" [disabled]="!canSave" (click)="saveChanges()"><mat-icon>check</mat-icon></button>
+  <mat-form-field class="mx-2">
+    <mat-label>Titre</mat-label>
+    <input matInput type="text" [formControl]="titleCtrl">
+  </mat-form-field>
+  <mat-form-field class="mx-2">
+    <mat-label>Description</mat-label>
+    <input matInput type="text" [formControl]="descriptionCtrl">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Langue</mat-label>
+    <input [formControl]="languageCtrl" [matAutocomplete]="languageAuto" matInput type="text">
+    <mat-autocomplete #languageAuto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let language of filteredLanguages | async" [value]="language">
+        {{language.displayCode}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+</form>

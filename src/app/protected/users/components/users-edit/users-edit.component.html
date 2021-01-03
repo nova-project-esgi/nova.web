@@ -1,0 +1,23 @@
+<mat-card>
+  <mat-card-content>
+    <div class="d-flex align-items-center my-2">
+      <mat-icon>account_circle</mat-icon><span class="ml-2">{{_elementCopy.username}}</span>
+    </div>
+    <div class="d-flex align-items-center my-2">
+      <mat-icon>alternate_email</mat-icon><span class="ml-2">{{_elementCopy.email}}</span>
+    </div>
+    <form [formGroup]="_formGrp" class="my-3">
+      <mat-form-field>
+        <mat-label>Role</mat-label>
+        <mat-select [formControl]="roleCtrl">
+          <mat-option value="ADMIN">Administrateur</mat-option>
+          <mat-option value="USER" >Utilisateur</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+
+    <div class="d-flex justify-content-between">
+      <button mat-stroked-button color="primary" [disabled]="this.roleCtrl.disabled || this._formGrp.invalid" (click)="updateUser()">Valider</button>
+    </div>
+  </mat-card-content>
+</mat-card>

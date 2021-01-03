@@ -1,0 +1,11 @@
+<app-events-edit-choice-resource
+                             *ngFor="let choiceResource of elements; let i = index"
+                             (elementDeleted)="onElementDeleted(i)"
+                             (elementChanged)="onElementChanged($event, i)"
+                             [element]="choiceResource"
+                             [resources]="availableResources"
+                             #addedChildComponents
+></app-events-edit-choice-resource>
+<app-events-edit-choice-resource [canAdd]="true"
+                                 [resources]="availableResources"
+                             (elementAdded)="onElementAdded($event)"></app-events-edit-choice-resource>

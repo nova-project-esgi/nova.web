@@ -1,0 +1,13 @@
+<mat-card *ngFor="let translation of translations">
+  <mat-card-content>
+    <app-events-translation [translation]="translation" (translationChanged)="updateTranslation($event)"></app-events-translation>
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-content>
+    <app-events-translation (translationCreated)="createTranslation($event)"></app-events-translation>
+  </mat-card-content>
+</mat-card>
+
+
+

@@ -1,0 +1,16 @@
+<app-filtered-list>
+  <app-users-filter appFilteredListFilter (filterReset)="onFilterReset()" (filterChanged)="updateFilter($event)"
+                     (filterConfirmed)="getUsers()"></app-users-filter>
+  <div appFilteredListList class="d-flex align-content-start flex-wrap">
+    <div  class="col-3 my-2" *ngFor="let user of elements; let i = index; trackBy:trackByFn">
+      <app-users-edit [element]="user"
+                        (userUpdated)="onUserUpdated($event, i)" >
+      </app-users-edit>
+    </div>
+  </div>
+
+  <mat-paginator appFilteredListPaginator *ngIf="pagination" [length]="pagination.total"
+                 [pageSize]="pagination.size"
+                 [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChange($event)">
+  </mat-paginator>
+</app-filtered-list>

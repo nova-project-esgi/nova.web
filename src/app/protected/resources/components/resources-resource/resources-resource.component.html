@@ -1,0 +1,47 @@
+<mat-card>
+  <mat-card-header class="d-flex align-items-center">
+    <img mat-card-avatar [src]="iconUrl" *ngIf="iconUrl" alt="Background" class="my-2"/>
+    <mat-card-title>{{name}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-accordion>
+      <mat-expansion-panel #iconPanel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Icon
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-image-drop [file]="_elementCopy.icon" [hideSaveButton]="true"
+                        (pictureChanged)="changeResourceIcon($event)"
+                        (pictureLoaded)="onIconLoaded($event)"></app-image-drop>
+      </mat-expansion-panel>
+      <mat-expansion-panel #translationPanel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="my-2">
+            {{_elementCopy?.translations?.length}} traductions
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-resources-edit-translations (elementsChanged)="onTranslationsChanged($event)"
+                                         [formArray]="translationsArray" [elements]="translations"
+                                         [languages]="availableLanguages"></app-resources-edit-translations>
+      </mat-expansion-panel>
+      <mat-expansion-panel #difficultyPanel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="my-2">
+            {{_elementCopy?.difficulties?.length}} difficultés
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-resources-edit-difficulties (elementsChanged)="onDifficultiesChanged($event)"
+                                         [formArray]="difficultiesArray" [elements]="resourceDifficulties"
+                                         [difficulties]="difficulties"
+        ></app-resources-edit-difficulties>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <div class="d-flex justify-content-end my-2">
+      <button mat-raised-button color="primary" [disabled]="_formGrp.invalid" (click)="update()">Valider</button>
+      <button mat-raised-button color="warn" [disabled]="!_elementCopy?.canDelete" (click)="delete()">Supprimer
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

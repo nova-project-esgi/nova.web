@@ -1,0 +1,26 @@
+<mat-card>
+  <mat-card-content>
+    <form [formGroup]="_formGrp">
+      <mat-form-field>
+        <mat-label>Code principal</mat-label>
+        <input matInput placeholder="en" [formControl]="codeCtrl" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Code secondaire</mat-label>
+        <input matInput [formControl]="subCodeCtrl" placeholder="US">
+      </mat-form-field>
+      <mat-checkbox [disabled]="!_elementCopy.canSetDefault" class="my-1"
+                    [formControl]="isDefaultCtrl"
+                    labelPosition="after">
+        Language par défault
+      </mat-checkbox>
+      <mat-error *ngIf="_formGrp.hasError('duplicateError')" >La langue exite déja</mat-error>
+    </form>
+
+    <div class="d-flex justify-content-between">
+      <button mat-stroked-button color="primary" [disabled]="!this._formGrp.valid" (click)="updateLanguage()">Valider</button>
+      <button mat-stroked-button color="warn" [disabled]="!_elementCopy.canDelete" (click)="deleteLanguage()">Supprimer</button>
+    </div>
+
+  </mat-card-content>
+</mat-card>

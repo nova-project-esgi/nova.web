@@ -1,0 +1,35 @@
+<mat-card>
+  <div class="row">
+    <div class="d-flex col-12 justify-content-between align-items-center">
+      <div class="col-11">
+        <mat-card-content>
+          <mat-accordion>
+            <mat-expansion-panel  #translationsPanel class="my-2">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{_choice?.translations?.length}} traductions
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-events-edit-choice-translations [elements]="_choice?.translations" [languages]="languages" [formArray]="translationsArr"  (elementsChanged)="onTranslationsChanged($event)"></app-events-edit-choice-translations>
+            </mat-expansion-panel>
+            <mat-expansion-panel #resourcesPanel class="my-2">
+              <mat-expansion-panel-header>
+                <mat-panel-title >
+                  {{_choice?.resources?.length}} ressources
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-events-edit-choice-resources  [elements]="_choice?.resources" [resources]="imageResources" [formArray]="resourcesArr" (elementsChanged)="onResourcesChanged($event)"></app-events-edit-choice-resources>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-card-content>
+      </div>
+      <div class="col-1">
+        <button class="mx-2" mat-mini-fab color="primary" *ngIf="canAdd" (click)="onAddClicked()" [disabled]="formGrp.invalid"><mat-icon>add</mat-icon></button>
+        <button class="mx-2" mat-mini-fab color="warn" *ngIf="!canAdd" (click)="onDeleteClicked()"><mat-icon>clear</mat-icon></button>
+      </div>
+    </div>
+
+  </div>
+
+
+</mat-card>

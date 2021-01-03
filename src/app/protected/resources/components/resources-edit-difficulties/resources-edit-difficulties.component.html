@@ -1,0 +1,12 @@
+<app-resources-edit-difficulty
+  *ngFor="let difficultyResource of elements; let i = index"
+  (elementDeleted)="onElementDeleted(i)"
+  (elementChanged)="onElementChanged($event, i)"
+  [element]="difficultyResource"
+  [difficulties]="availableDifficulties"
+  #addedChildComponents
+></app-resources-edit-difficulty>
+<app-resources-edit-difficulty [canAdd]="true"
+                                 [difficulties]="availableDifficulties"
+                                 (elementAdded)="onElementAdded($event)"></app-resources-edit-difficulty>
+

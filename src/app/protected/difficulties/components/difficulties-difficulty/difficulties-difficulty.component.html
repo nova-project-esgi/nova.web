@@ -1,0 +1,25 @@
+<mat-card>
+  <mat-card-header class="d-flex align-items-center">
+    <mat-card-title> {{name}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="my-3">
+        <h3>Options: </h3>
+        <app-difficulties-edit-options [element]="options" [formGrp]="optionsGrp" (elementChanged)="onOptionsChanged($event)"></app-difficulties-edit-options>
+    </div>
+    <mat-accordion>
+      <mat-expansion-panel #translationPanel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="my-2">
+            {{translations?.length}} traductions
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-difficulties-edit-translations [elements]="translations" [languages]="languages" [formArray]="translationsArr" (elementsChanged)="onTranslationsChanged($event)"></app-difficulties-edit-translations>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div class="d-flex justify-content-end my-2">
+      <button mat-raised-button color="primary" [disabled]="_formGrp.invalid" (click)="update()">Valider</button>
+      <button mat-raised-button color="warn"  [disabled]="!_elementCopy?.canDelete" (click)="delete()">Supprimer</button>
+    </div>
+  </mat-card-content>
+</mat-card>
