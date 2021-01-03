@@ -59,7 +59,7 @@ export class RegisterFormComponent implements OnInit {
     this.user.username = this.usernameCtrl.value;
     this.user.password = this.pwdCtrl.value;
     this.user.rememberMe = this.rememberMeCtrl.value;
-    this.validUserChange.emit(this.user);
+    this.validUserChange.emit(new UserRegisterCmdDto(this.user));
   }
 
   reset(): void {

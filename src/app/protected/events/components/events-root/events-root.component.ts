@@ -13,7 +13,7 @@ export class EventsRootComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log('EVENTS ROOT');
+
   }
 
 }

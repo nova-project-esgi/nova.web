@@ -12,5 +12,5 @@ export class DetailedResourceTranslation {
     _.assign(this, props);
     this.language = new LanguageDto(this.language);
   }
-
 }
+

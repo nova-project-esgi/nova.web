@@ -19,6 +19,8 @@ export abstract class SubFormElementEditionComponent<InputElement, OutputElement
   @Input()
   abstract element?: InputElement;
 
+  _elementCopy: InputElement;
+
   hasUpdate: boolean;
 
   abstract initFormGrp(formGrp: FormGroup): void;

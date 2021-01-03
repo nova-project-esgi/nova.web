@@ -8,3 +8,4 @@ export class ResourceTranslationEditionDto{
     _.assign(this, props);
   }
 }
+

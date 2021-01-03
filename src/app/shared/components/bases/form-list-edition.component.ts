@@ -11,7 +11,7 @@ export abstract class FormListEditionComponent<ChildComponent extends SubListEle
 
   @ViewChildren('addedChildComponents')
   components: QueryList<ChildComponent>;
-  private _formArray: FormArray;
+  protected _formArray: FormArray;
 
   @Input()
   elements: InputElement[] = [];
@@ -57,7 +57,7 @@ export abstract class FormListEditionComponent<ChildComponent extends SubListEle
     this.elements.push(element);
   }
 
-  onElementChanged(element: InputElement, i: number): void {
+  onElementChanged(element: OutputElement, i: number): void {
     _.merge(this.elements[i], element);
   }
 

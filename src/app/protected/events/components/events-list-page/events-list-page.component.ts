@@ -1,7 +1,6 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {TranslatedEventsTitleFilter} from '../../../../shared/filters/events/translated-events-title.filter';
 import {Store} from '@ngrx/store';
-import {TranslatedEventDto} from '../../../../shared/models/events/translated-event.dto';
 import {EventsFilterComponent} from '../../events-filter/component/events-filter.component';
 import * as fromEvents from '../../state/events.reducer';
 import * as EventsSelectors from '../../state/events.selectors';
@@ -22,6 +21,7 @@ import {ImageDetailedResourceDto} from '../../../../shared/models/resources/imag
 import * as ResourcesSelectors from '../../../../shared/states/resources/resources.selectors';
 import {ImageDetailedEventEdition} from '../../../../shared/models/events/image-detailed-event-edition';
 import {trackById} from '../../../../shared/track-by/generic-track-by';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -37,6 +37,7 @@ export class EventsListPageComponent extends FormListEditionComponent< EventsEve
   pagination: PaginationResume;
 
   trackByFn = trackById;
+  updateIdx = -1;
 
   constructor(private store: Store<fromEvents.State>, protected fb: FormBuilder) {
     super(fb);
@@ -47,11 +48,23 @@ export class EventsListPageComponent extends FormListEditionComponent< EventsEve
   ngOnInit(): void {
     this.store.dispatch(ResourcesActions.loadResources());
     this.store.select(EventsSelectors.selectPaginationResume).subscribe(pagination => {
+      if (pagination && pagination.page !== null && pagination.size !== null && !_.isEqual(this.pagination, pagination)) {
+        this.store.dispatch(EventsActions.loadEventsPageFiltered());
+      }
       this.pagination = pagination;
     });
-
     this.store.select(EventsSelectors.selectEvents).subscribe(
-      events => this.elements = events);
+      events => {
+        if (events) {
+          if (this.updateIdx >= 0) {
+            this.elements[this.updateIdx] = events[this.updateIdx];
+            this.updateIdx = -1;
+          } else {
+            this.elements = events;
+          }
+        }
+      });
+
     this.store.select(LanguagesSelectors.selectLanguages).subscribe(languages => this.languages = languages);
     this.store.dispatch(LanguagesActions.loadLanguages());
     this.store.select(ResourcesSelectors.selectResources).subscribe(resources => this.resources = resources);
@@ -68,19 +81,21 @@ export class EventsListPageComponent extends FormListEditionComponent< EventsEve
     this.store.dispatch(EventsActions.loadEventsPageFiltered());
   }
 
-  updateFilter($event: TranslatedEventsTitleFilter): void {
-    this.store.dispatch(EventsActions.updateFilter(new Payload<TranslatedEventsFilter>($event)));
+  updateFilter(filter: TranslatedEventsTitleFilter): void {
+    this.store.dispatch(EventsActions.updateFilter(new Payload<TranslatedEventsFilter>(filter)));
   }
 
   onPageChange($event: PageEvent): void {
     this.store.dispatch(EventsActions.updatePagination(new Payload<PaginationResume>(PaginationResume.fromPageEvent($event))));
   }
 
-  onEventUpdated(event: ImageDetailedEventEdition): void {
+  onEventUpdated(event: ImageDetailedEventEdition, i: number): void {
+    this.updateIdx = i;
     this.store.dispatch(EventsActions.updateEvent(new Payload<ImageDetailedEventEdition>(event)));
   }
 
   onEventDeleted(eventId: ImageDetailedEventDto): void {
     this.store.dispatch(EventsActions.deleteEvent(new Payload<string>(eventId.id)));
   }
+
 }

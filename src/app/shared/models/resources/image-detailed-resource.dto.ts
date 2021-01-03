@@ -14,7 +14,8 @@ export class ImageDetailedResourceDto extends DetailedResourceDto{
 
   toResourceWithTranslationEdition(): DetailedResourceEditionDto {
     return new DetailedResourceEditionDto({
-      translations: this.translations.map(t => t.toResourceTranslationEditionDto())
+      translations: this.translations.map(t => t.toResourceTranslationEditionDto()),
+      difficulties: this.difficulties.map(d => d.toResourceDifficultyEditionDto())
     });
   }
 

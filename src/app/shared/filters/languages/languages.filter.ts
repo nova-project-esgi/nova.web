@@ -8,3 +8,4 @@ export class LanguagesFilter {
     _.assign(this, filter);
   }
 }
+

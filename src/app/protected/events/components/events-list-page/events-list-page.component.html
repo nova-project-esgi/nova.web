@@ -4,7 +4,7 @@
   <div appFilteredListList>
     <div class="my-3" *ngFor="let event of elements; let i = index; trackBy:trackByFn">
       <app-events-event [resources]="resources" [element]="event"
-                        [languages]="languages" (eventUpdated)="onEventUpdated($event)" (eventDeleted)="onEventDeleted(event)">
+                        [languages]="languages" (eventUpdated)="onEventUpdated($event, i)" (eventDeleted)="onEventDeleted(event)" >
       </app-events-event>
     </div>
   </div>

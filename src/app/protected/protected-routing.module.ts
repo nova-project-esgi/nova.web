@@ -10,6 +10,8 @@ const routes: Routes = [
       {path: 'events', loadChildren: () => import('./events/events.module').then(m => m.EventsModule)},
       {path: 'languages', loadChildren: () => import('./languages/languages.module').then(m => m.LanguagesModule)},
       {path: 'resources', loadChildren: () => import('./resources/resources.module').then(m => m.ResourcesModule)},
+      {path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule)},
+      {path: 'difficulties', loadChildren: () => import('./difficulties/difficulties.module').then(m => m.DifficultiesModule)},
     ]
   }
 ];

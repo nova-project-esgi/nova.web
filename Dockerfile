@@ -1,10 +1,11 @@
-FROM  trion/ng-cli:10.2.0 as builder
+FROM  node:alpine as builder
 WORKDIR /app
-COPY package.json package.json
-COPY package-lock.json package-lock.json
-RUN npm ci  --debug
+#COPY package.json package.json
+#COPY package-lock.json package-lock.json
 COPY . .
-RUN ng build --prod --configuration production
+RUN npm ci  --debug && npm run build-prod
+#COPY . .
+#RUN ng build --prod --configuration production
 
 
 FROM nginx:1.17.5

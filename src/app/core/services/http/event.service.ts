@@ -125,7 +125,9 @@ export class EventService extends ApiServiceBase {
 
   update(event: ImageDetailedEventEdition, id: string, resources: ImageDetailedResourceDto[]): Observable<ImageDetailedEventDto> {
     return this.http.put(`${this.url}/${id}`, event, {headers: this.getContentTypeHeader(CustomMediaTypeEnum.DETAILED_EVENT)}).pipe(
-      switchMap(res => this.getOneImageDetailedEventById(id, resources))
+      switchMap(value => this.imageService.saveFile(`${this.url}/${id}/background`, event.image)),
+      switchMap(res => forkJoin(this.getOneImageDetailedEventById(id, resources))),
+      map(([imageEvent]) => imageEvent)
     );
   }
 

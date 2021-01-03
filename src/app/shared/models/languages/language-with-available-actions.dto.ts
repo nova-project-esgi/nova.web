@@ -6,7 +6,7 @@ export class LanguageWithAvailableActionsDto implements Id<string> {
     code: string;
     subCode?: string;
     isDefault = false;
-    canUpdate = false;
+    canUpdate = true;
     canDelete = false;
     canSetDefault = false;
     constructor(language: Partial<LanguageWithAvailableActionsDto>) {

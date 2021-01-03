@@ -1,6 +1,5 @@
-import {Jwt} from '../jwt';
-import {ObjectUtils} from '../../utils/object.utils';
 import {Role} from '../../enums/role';
+import * as _ from 'lodash';
 
 export class User {
   id: string;
@@ -11,8 +10,9 @@ export class User {
   rememberMe: boolean;
   token: string;
 
-  constructor(user: Partial<User>) {
-    ObjectUtils.copyProperties(user, this);
+  constructor(user?: Partial<User>) {
+    _.assign(this, user);
   }
 
 }
+

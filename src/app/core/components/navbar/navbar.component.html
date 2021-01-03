@@ -2,9 +2,11 @@
   <div class="w-75">
     <a class="nav-link" data-toggle="tab" id="homeLink" mat-tab-link routerLink="/home" routerLinkActive="active">Accueil</a>
     <a class="nav-link" data-toggle="tab" id="contactLink" mat-tab-link routerLink="/contact" routerLinkActive="active">Contact</a>
-    <a *ngIf="user" class="nav-link"  data-toggle="tab" id="eventsLink" mat-tab-link routerLink="/events" routerLinkActive="active">Evénements</a>
-    <a *ngIf="user" class="nav-link"  data-toggle="tab" id="languagesLink" mat-tab-link routerLink="/languages" routerLinkActive="active">Langues</a>
-    <a *ngIf="user" class="nav-link"  data-toggle="tab" id="resourcesLink" mat-tab-link routerLink="/resources" routerLinkActive="active">Ressources</a>
+    <a *ngIf="user?.role == 'ADMIN' " class="nav-link"  data-toggle="tab" id="eventsLink" mat-tab-link routerLink="/events" routerLinkActive="active">Evénements</a>
+    <a *ngIf="user?.role == 'ADMIN'" class="nav-link"  data-toggle="tab" id="languagesLink" mat-tab-link routerLink="/languages" routerLinkActive="active">Langues</a>
+    <a *ngIf="user?.role == 'ADMIN'" class="nav-link"  data-toggle="tab" id="resourcesLink" mat-tab-link routerLink="/resources" routerLinkActive="active">Ressources</a>
+    <a *ngIf="user?.role == 'ADMIN'" class="nav-link"  data-toggle="tab" id="difficultiesLink" mat-tab-link routerLink="/difficulties" routerLinkActive="active">Difficultés</a>
+    <a *ngIf="user?.role == 'ADMIN'" class="nav-link"  data-toggle="tab" id="usersLink" mat-tab-link routerLink="/users" routerLinkActive="active">Utilisateurs</a>
     <a *ngIf="!user" class="nav-link" data-toggle="tab" id="loginLink" mat-tab-link routerLink="/login" routerLinkActive="active">Connexion</a>
   </div>
   <div class="d-flex w-25 justify-content-end">

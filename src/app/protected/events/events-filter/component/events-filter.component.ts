@@ -35,10 +35,7 @@ export class EventsFilterComponent extends FilterComponent<TranslatedEventsTitle
 
   languages: LanguageDto[];
 
-  // confirmDisabled = true;
   titlesObs: Observable<EventTranslationTitleDto[]>;
-
-
 
   constructor(private fb: FormBuilder, private store: Store<fromEventsFilter.State>) {
     super();
@@ -104,6 +101,7 @@ export class EventsFilterComponent extends FilterComponent<TranslatedEventsTitle
     if (filteredLanguages.length === 0 || filteredLanguages[0].displayCode !== languageCode) {
       this.titleCtrl.disable({emitEvent: false});
     }
+    this.filterChanged.emit({...this.filter, language: languageCode});
     return filteredLanguages;
   }
 
@@ -120,10 +118,6 @@ export class EventsFilterComponent extends FilterComponent<TranslatedEventsTitle
     return this.titles?.filter(t => StringUtils.startWith(t.title.toLowerCase(), title.toLowerCase())) ?? [];
   }
 
-  onLanguageSelected($event: MatAutocompleteSelectedEvent): void {
-    this.titleCtrl.enable({emitEvent: false});
-    this.filterChanged.emit({...this.filter, language: $event.option.value});
-  }
 
   private handleTitleValue(title: string): EventTranslationTitleDto[] {
     this.filterChanged.emit({...this.filter, title});

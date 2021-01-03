@@ -15,6 +15,7 @@ import {ImageDropComponent} from './components/image-drop/image-drop.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {FilteredListComponent} from './components/filtered-list/filtered-list.component';
 import {ResourcesModule} from './states/resources/resources.module';
+import {DifficultiesModule} from './states/difficulties/difficulties.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {ResourcesModule} from './states/resources/resources.module';
     ImageCropperModule,
     LanguagesModule,
     ResourcesModule,
+    DifficultiesModule
   ], exports: [
     ReactiveFormsModule,
     CommonModule,
@@ -50,7 +52,8 @@ import {ResourcesModule} from './states/resources/resources.module';
     LanguagesModule,
     ResourcesModule,
     ImageDropComponent,
-    FilteredListComponent
+    FilteredListComponent,
+    DifficultiesModule
   ]
 })
 export class SharedModule {
