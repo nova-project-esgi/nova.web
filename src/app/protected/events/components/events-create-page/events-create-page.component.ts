@@ -65,8 +65,8 @@ export class EventsCreatePageComponent implements AfterViewChecked {
     const event = new ImageDetailedEventEdition({
       choices: this.choices.map(c => c.toEdition()),
       translations: this.translations.map(t => t.toEditionDto()),
-      isActive: this.eventOption.isDaily,
-      isDaily: this.eventOption.isActive,
+      isActive: this.eventOption.isActive,
+      isDaily: this.eventOption.isDaily,
       image: this.eventPicture
     });
     this.store.dispatch(EventsActions.createEvent(new Payload<ImageDetailedEventEdition>(event)));

@@ -78,6 +78,7 @@ export class EventsEditChoiceResourceComponent extends SubListElementEditionComp
     formGrp.setControl('language', this.languagesCtrl);
     formGrp.setControl('changeValue', this.changeValueCtrl);
     this._formGrp = formGrp;
+    this._formGrp.valueChanges.subscribe(val => this.emitElementChanged());
   }
   resourceDisplayFn = (resource: DetailedResourceTranslation) => resource?.name;
   languageDisplayFn = (language: LanguageDto) => language?.displayCode;

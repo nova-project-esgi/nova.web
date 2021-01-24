@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 
 export class LanguageEditionDto {
   code: string;
-  subCode?: string;
+  subCode: string;
   isDefault: boolean;
 
   constructor(language: Partial<LanguageEditionDto>) {

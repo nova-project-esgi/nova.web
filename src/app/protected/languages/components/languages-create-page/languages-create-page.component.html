@@ -15,7 +15,7 @@
         <ng-template matStepLabel>Renseigner un code secondaire</ng-template>
         <mat-form-field>
           <mat-label>Code secondaire</mat-label>
-          <input matInput [formControl]="subCodeCtrl" placeholder="US">
+          <input matInput [formControl]="subCodeCtrl" placeholder="US" required>
           <mat-error *ngIf="subCodeCtrl.hasError('duplicateLanguageErr')">La langue existe déja</mat-error>
         </mat-form-field>
         <div>

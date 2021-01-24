@@ -7,7 +7,7 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Code secondaire</mat-label>
-        <input matInput [formControl]="subCodeCtrl" placeholder="US">
+        <input matInput [formControl]="subCodeCtrl" placeholder="US" required>
       </mat-form-field>
       <mat-checkbox [disabled]="!_elementCopy.canSetDefault" class="my-1"
                     [formControl]="isDefaultCtrl"

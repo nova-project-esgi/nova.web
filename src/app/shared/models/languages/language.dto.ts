@@ -4,7 +4,7 @@ import {Id} from '../../ids/id';
 export class LanguageDto implements Id<string>{
   id: string;
   code: string;
-  subCode?: string;
+  subCode: string;
   canUpdate =  false;
   isDefault = false;
 
