@@ -14,6 +14,17 @@ export abstract class ApiServiceBase {
   protected abstract url: string;
   protected abstract http: HttpClient;
 
+  protected getFormattedUrl(textUrl: string): string{
+    try{
+      const url = new URL(textUrl);
+      url.protocol = window.location.protocol;
+      return url.toString();
+    }
+    catch (e: any){
+      return textUrl;
+    }
+  }
+
   protected getAcceptHeader(contentType: string): HttpHeaders {
     return new HttpHeaders({[HeadersEnum.ACCEPT]: contentType});
   }
@@ -38,21 +49,21 @@ export abstract class ApiServiceBase {
   // T: return object, P: specified properties to get by model, F: filter type
   protected getFiltered<Output, Filter = Output,  P = Output>(obj: GetParams<P, Filter>): Observable<Output> {
     const url = UrlUtils.convertGetParamsToUrl(obj);
-    return this.http.get<Output>(url, {headers: obj.headers});
+    return this.http.get<Output>(this.getFormattedUrl(url), {headers: obj.headers});
   }
 
   protected getAllFiltered<T, P = T, F = T>(obj: GetParams<P, F>): Observable<T[]> {
     const url = UrlUtils.convertGetParamsToUrl(obj);
-    return this.http.get<PaginationMetadata<T>>(url, {headers: obj.headers}).pipe(map(res => res.values));
+    return this.http.get<PaginationMetadata<T>>(this.getFormattedUrl(url), {headers: obj.headers}).pipe(map(res => res.values));
   }
 
   protected fetchAll<T, P = T, F = T>(obj: GetParams<P, F>, acc: T[] = []): Observable<T[]> {
     const url = UrlUtils.convertGetParamsToUrl(obj);
-    return new Observable(subscriber => this.http.get<PaginationMetadata<T>>(url, {headers: obj.headers}).subscribe(value => {
+    return new Observable(subscriber => this.http.get<PaginationMetadata<T>>(this.getFormattedUrl(url), {headers: obj.headers}).subscribe(value => {
       const nextLink = value.links.find(l => l.rel === LinkRelEnum.NEXT);
       acc.push(...value.values);
       if (nextLink) {
-        this.fetchAll({url: nextLink.href}, acc).subscribe(next => subscriber.next(acc));
+        this.fetchAll({url: this.getFormattedUrl(nextLink.href)}, acc).subscribe(next => subscriber.next(acc));
       } else {
         subscriber.next(acc);
       }
@@ -61,13 +72,13 @@ export abstract class ApiServiceBase {
 
 
   protected createAndLocate<T>(request: RequestParams, body: T): Observable<string> {
-    return this.http.post(request.url, body, {observe: 'response', headers: request.headers}).pipe(
-      map((value: HttpResponse<any>) => value.headers.get('location'))
+    return this.http.post(this.getFormattedUrl(request.url), body, {observe: 'response', headers: request.headers}).pipe(
+      map((value: HttpResponse<any>) => this.getFormattedUrl(value.headers.get('location')))
     );
   }
 
   protected createAndGet<T, R>(request: RequestParams, body: T): Observable<R> {
-    return this.createAndLocate(request, body).pipe(switchMap(location => this.http.get<R>(location)));
+    return this.createAndLocate(request, body).pipe(switchMap(location => this.http.get<R>(this.getFormattedUrl(location))));
   }
 
   protected createAndGetIds<T>(request: RequestParams, body: T): Observable<number[]> {
