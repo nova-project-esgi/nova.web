@@ -10,6 +10,7 @@ export class State extends LoadableLogState {
     super(state);
   }
 }
+export const userFeatureKey = 'user';
 
 export const initialState: State = new State({connectedUser: undefined});
 

@@ -11,11 +11,21 @@
   </div>
   <div class="d-flex w-25 justify-content-end">
     <ng-container *ngIf="user">
-      <button [matMenuTriggerFor]="menu" aria-label="Profile" mat-button>
+      <button *ngIf="user.role === 'ADMIN'"   [matMenuTriggerFor]="notificationMenu" aria-label="Profile" mat-button>
+        Notifier
+        <mat-icon>campaign</mat-icon>
+      </button>
+      <mat-menu #notificationMenu="matMenu">
+        <button (click)="sendMobileUpdateNotification()" mat-menu-item>
+          <mat-icon>system_update</mat-icon>
+          <span>Maj application</span>
+        </button>
+      </mat-menu>
+      <button [matMenuTriggerFor]="userMenu" aria-label="Profile" mat-button>
         {{user.username}}
         <mat-icon>account_circle</mat-icon>
       </button>
-      <mat-menu #menu="matMenu">
+      <mat-menu #userMenu="matMenu">
         <button (click)="logOut()" mat-menu-item>
           <mat-icon>exit_to_app</mat-icon>
           <span>Log out</span>

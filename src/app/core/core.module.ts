@@ -12,16 +12,20 @@ import * as fromUser from './state/user/user.reducers';
 import {SharedModule} from '../shared/shared.module';
 import {RouterModule} from '@angular/router';
 import {NavbarComponent} from './components/navbar/navbar.component';
+import {UserModule} from './state/user/user.module';
+import {NotificationModule} from './state/notification/notification.module';
 
 
 @NgModule({
   declarations: [NavbarComponent],
   imports: [
-    StoreModule.forRoot({user: fromUser.reducer}),
+    StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({
       name: 'Nova NgRx'
     }),
-    EffectsModule.forRoot([UserEffects]),
+    EffectsModule.forRoot([]),
+    UserModule,
+    NotificationModule,
     CommonModule,
     HttpClientModule,
     RouterModule,
