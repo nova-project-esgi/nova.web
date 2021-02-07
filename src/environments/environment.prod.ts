@@ -2,5 +2,5 @@ import {BaseEnvironment} from './base-environment';
 
 export const environment = new BaseEnvironment({
   production: true,
-  apiUrl: 'http://freenetaccess.freeboxos.fr:8001'
+  apiUrl: 'http://localhost:8002'
 });
